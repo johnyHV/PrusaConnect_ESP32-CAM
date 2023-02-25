@@ -36,15 +36,15 @@ const char* password =      "password";
 
 String HOST_URL      =      "https://webcam.connect.prusa3d.com/c/snapshot"; /* Prusa Connect server URL for photo */
 String DOMAIN        =      "webcam.connect.prusa3d.com";                    /* prusa connect server */
-String TOKEN         =      "token";                          				/* replace with your TOKEN */
-String FINGERPRINT   =      "fingerprint";      							/* replace with your fingerprint */
+String TOKEN         =      "Lww9iJtw9g3UevGN4klq";                          /* replace with your TOKEN */
+String FINGERPRINT   =      "0eb33f10881c9c2ade0a8f2dffc3b4d24dfa738a";      /* replace with your fingerprint */
 
 #define PHOTO_FRAME_SIZE    FRAMESIZE_SXGA  /* FRAMESIZE_UXGA (1600 x 1200), FRAMESIZE_SXGA (1280 x 1024), FRAMESIZE_XGA (1024 x 768), FRAMESIZE_SVGA (800 x 600), FRAMESIZE_VGA (640 x 480) */
 #define PHOTO_QUALITY       10              /*10-63 lower number means higher quality */
 #define PHOTO_VERTICAL_FLIP 1               /* 0 - disable, 1- enable */
 #define FLASH_STATUS        LOW             /* enable/disable Flash LED. HIGH - turn ON, LOW - turn off */
   
-#define REFRESH_INTERVAL    15      /* refresh interval in the second */
+#define REFRESH_INTERVAL    20      /* refresh interval in the second */
 #define SERIAL_PORT_SPEER   115200  /* baud rate */
 #define WDT_TIMEOUT         10      /* wdg timeout second */
 
