@@ -14,13 +14,15 @@ What we need for functionality
 
 <a name="esp32"></a>
 ## ESP32-CAM AI-thinker board 
-It's few dolars board with ESP32 MCU and Camera. It's neccesary buy board with camera module OV2640. the board is sold without a programmer as standard. It is possible to program it using the FTDI USB to UART converter, or buy an original programmer for the board. I recommend buying a programmer for the board. It can save a lot of trouble with connecting and programming the board.
+It's few dolars board with **ESP32** MCU and Camera. It's neccesary buy board with **camera module OV2640**. the board is sold without a programmer as standard. It is possible to program it using the FTDI USB to UART converter, or buy an original programmer for the board. I recommend buying a programmer for the board. It can save a lot of trouble with connecting and programming the board.
 
 <img src="manual_img/esp32.jpg" width=30% height=30%>
 
-In the next picture we can see ESP32-CAM board and programator for board. Currently price for ESP32-CAM board with programmer is 6eur with shippig from aliexpress.
+In the next picture we can see **ESP32-CAM** board and programator for board. Currently price for **ESP32-CAM** board with programmer is 6eur with shippig from aliexpress.
 
 <img src="manual_img/esp32_and_prog.jpg" width=40% height=40%>
+
+You must have a camera version **OV2640**. in the case of a different camera, it is necessary to modify the camera's pinout, and some camera settings may not work correctly
 
 <a name="arduino"></a>
 ## Necessary libraries in the Arduino IDE
