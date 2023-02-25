@@ -1,4 +1,4 @@
-# PrusaConnect_ESP32-CAM
+# PrusaConnect ESP32-CAM
 
 For Web cameras in the PrusaConnect is launched a WEB page on the Android/IOS/laptop device, which then sending photos from the camera to the prusaconnect backend.
 
