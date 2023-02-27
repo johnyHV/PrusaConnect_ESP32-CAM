@@ -10,7 +10,8 @@ What we need for functionality
 - Install the necessary libraries in the Arduino IDE [ here ](#arduino)
 - Get Token ID and Fingerprint from new camera in the PrusaConnect [ here ](#token_finger)
 - Get an ISRG Root X1 certificate for the PrusaConnect site [ here ](#cert)
-- How to configure MCU [ here ](#mcu)
+- How to configure [ESP32_PrusaConnectCam](https://github.com/johnyHV/PrusaConnect_ESP32-CAM/tree/master/ESP32_PrusaConnectCam) SW [ here ](#mcu_10)
+- How to configure [ESP32_PrusaConnectCam_web](https://github.com/johnyHV/PrusaConnect_ESP32-CAM/tree/master/ESP32_PrusaConnectCam_web) SW with WEB interface [ here ](#mcu_web)
 
 <a name="esp32"></a>
 ## ESP32-CAM AI-thinker board 
@@ -90,7 +91,7 @@ Now we can open the certificate in a text editor and save it in the source code
 
 ![Image description](manual_img/15.jpg)
 
-<a name="mcu"></a>
+<a name="mcu_10"></a>
 ## How to configure MCU
 Board version is **Tools -> Board -> ESP32 Arduino -> AI Thinker ESP32**. In the source code we can see several variable
 
@@ -115,11 +116,27 @@ in the file **Certificate.h** is stored **ISRG Root X1 certificate**
 
 ![Image description](manual_img/21.jpg)
 
+<a name="mcu_web"></a>
+## How to configure MCU with WEB interface
+Board version is **Tools -> Board -> ESP32 Arduino -> AI Thinker ESP32**. In the source code we can see several variable
+
+This SW version use **WEB interface** for settings **token** and **fingerprint** variable. And there is an added option to turn **on/off the LED** using the WEB page. All variables is stored in the internal **FLASH memory**. 
+
+- change the WI-FI ssid and password for WI-FI (line 30 and 31 on the file ESP32_PrusaConnectCam_web.ino). 
+- compile the code and upload it to the MCU
+- open the serial console and wait until the IP address of the WEB server is displayed
+
+![Image description](manual_img/31.jpg)
+
+- now you can go to the WEB page and set the token and fingerprint
+
+![Image description](manual_img/30.jpg)
+
 # Changelog
 - 24.2.2023 - Init repository
 - 25.2.2023 - added **ESP32_PrusaConnectCam** app **version 1.0** (the source code is not optimal, but it is functional)
 - 25.2.2023 - added documentation
+- 27.2.2023 - added version of the application with WEB interface for MCU configuration **ESP32_PrusaConnectCam_web**. app **version 1.1**
 
 # TO-DO
-- WEB page for configure fingerprint and token variable
-- WEB page for LED controll
+- WEB page for configuration camera size, picture quality...
