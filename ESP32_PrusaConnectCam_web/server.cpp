@@ -132,10 +132,13 @@ void Server_SendPhotoToPrusaBackend() {
       client.println();
 
       /* photo fragmentation */
-      for (int index = 0; index < photo.length(); index = index + 1000) {
-        client.print(photo.substring(index, index + 1000));
+      esp_task_wdt_reset();
+      for (int index = 0; index < photo.length(); index = index + PHOTO_FRAGMENT_SIZE) {
+        client.print(photo.substring(index, index + PHOTO_FRAGMENT_SIZE));
+        Serial.println(index);
       }
       Serial.println("Send done!");
+      esp_task_wdt_reset();
 
       /* check response header */
       while (client.connected()) {

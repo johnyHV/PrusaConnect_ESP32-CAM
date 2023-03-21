@@ -5,6 +5,7 @@
 #include <AsyncWebSocket.h>
 #include <AsyncWebSynchronization.h>
 #include <ESPAsyncWebSrv.h>
+#include <esp_task_wdt.h>
 #include <StringArray.h>
 #include <WiFiClientSecure.h>
 #include <HTTPClient.h>
