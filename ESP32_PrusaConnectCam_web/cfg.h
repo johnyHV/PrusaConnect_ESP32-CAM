@@ -5,29 +5,40 @@
 #include <EEPROM.h>
 #include "mcu_cfg.h"
 #include "var.h"
-
-/* eeprom address configuration */
-#define EEPROM_ADDR_REFRESH_INTERVAL_START    0     /* whre is stored first byte from refresh data */
-#define EEPROM_ADDR_REFRESH_INTERVAL_LENGTH   1     /* how long is the refresh data variable stored in the eeprom [bytes] */
-
-#define EEPROM_ADDR_FINGERPRINT_START         (EEPROM_ADDR_REFRESH_INTERVAL_START + EEPROM_ADDR_REFRESH_INTERVAL_LENGTH)    /* where is stored first byte from fingerprint */
-#define EEPROM_ADDR_FINGERPRINT_LENGTH        50                                                                            /* how long is fingerprint [bytes] */
-
-#define EEPROM_ADDR_TOKEN_START               (EEPROM_ADDR_FINGERPRINT_START + EEPROM_ADDR_FINGERPRINT_LENGTH)              /* where is stored first byte from token */
-#define EEPROM_ADDR_TOKEN_LENGTH              30                                                                            /* how long is token [bytes] */
-
-#define EEPROM_SIZE                           (EEPROM_ADDR_REFRESH_INTERVAL_LENGTH + EEPROM_ADDR_FINGERPRINT_LENGTH + EEPROM_ADDR_TOKEN_LENGTH) /* how many bits do we need for eeprom memory */
+#include "esp_camera.h"
 
 void Cfg_Init();
 void Cfg_ReadCfg();
+void Cfg_DefaultCfg();
+
+framesize_t Cfg_TransformFrameSizeDataType(uint8_t);
+String Cfg_TransformFrameSizeToString(uint8_t);
 
 void Cfg_SaveRefreshInterval(uint8_t);
 void Cfg_SaveToken(String);
 void Cfg_SaveFingerprint(String);
+void Cfg_SavePhotoQuality(uint8_t);
+void Cfg_SaveFrameSize(uint8_t);
+void Cfg_SaveBrightness(int8_t);
+void Cfg_SaveContrast(int8_t);
+void Cfg_SaveSaturation(int8_t);
+void Cfg_SaveHmirror(bool);
+void Cfg_SaveVflip(bool);
+void Cfg_SaveLensCorrect(bool);
+void Cfg_SaveExposureCtrl(bool);
 
 void Cfg_LoadRefreshInterval();
 void Cfg_LoadToken();
 void Cfg_LoadFingerprint();
+void Cfg_LoadPhotoQuality();
+void Cfg_LoadFrameSize();
+void Cfg_LoadBrightness();
+void Cfg_LoadContrast();
+void Cfg_LoadSaturation();
+void Cfg_LoadHmirror();
+void Cfg_LoadVflip();
+void Cfg_LoadLensCorrect();
+void Cfg_LoadExposureCtrl();
 
 #endif
 

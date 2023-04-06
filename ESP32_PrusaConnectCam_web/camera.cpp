@@ -33,6 +33,7 @@ void Camera_CapturePhoto() {
 
 /* Init camera module */
 void Camera_InitCamera() {
+  Serial.println("Init camera CFG");
   /* Turn-off the 'brownout detector' */
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
 
@@ -60,17 +61,17 @@ void Camera_InitCamera() {
   config.pixel_format = PIXFORMAT_JPEG; /* YUV422,GRAYSCALE,RGB565,JPEG */
 
   /* OV2640
-    FRAMESIZE_UXGA (1600 x 1200)
     FRAMESIZE_QVGA (320 x 240)
     FRAMESIZE_CIF (352 x 288)
     FRAMESIZE_VGA (640 x 480)
     FRAMESIZE_SVGA (800 x 600)
     FRAMESIZE_XGA (1024 x 768)
     FRAMESIZE_SXGA (1280 x 1024)
+    FRAMESIZE_UXGA (1600 x 1200)
   */
-  config.frame_size = PHOTO_FRAME_SIZE; /* FRAMESIZE_ + QVGA|CIF|VGA|SVGA|XGA|SXGA|UXGA */
-  config.jpeg_quality = PHOTO_QUALITY;  /*10-63 lower number means higher quality */
-  config.fb_count = 1;                  /* picture frame buffer alocation */
+  config.frame_size = Cfg_TransformFrameSizeDataType(CameraCfg.FrameSize);  /* FRAMESIZE_ + QVGA|CIF|VGA|SVGA|XGA|SXGA|UXGA */
+  config.jpeg_quality = CameraCfg.PhotoQuality;                             /*10-63 lower number means higher quality */
+  config.fb_count = 1;                                                      /* picture frame buffer alocation */
 
   /* Camera init */
   esp_err_t err = esp_camera_init(&config);
@@ -79,32 +80,41 @@ void Camera_InitCamera() {
     ESP.restart();
   }
 
-  /* sensor configuration */
-  sensor_t * sensor = esp_camera_sensor_get();
-  sensor->set_brightness(sensor, 0);                  // -2 to 2
-  sensor->set_contrast(sensor, 0);                    // -2 to 2
-  sensor->set_saturation(sensor, 0);                  // -2 to 2
-  sensor->set_special_effect(sensor, 0);              // 0 to 6 (0 - No Effect, 1 - Negative, 2 - Grayscale, 3 - Red Tint, 4 - Green Tint, 5 - Blue Tint, 6 - Sepia)
-  sensor->set_whitebal(sensor, 1);                    // 0 = disable , 1 = enable
-  sensor->set_awb_gain(sensor, 1);                    // 0 = disable , 1 = enable
-  sensor->set_wb_mode(sensor, 0);                     // 0 to 4 - if awb_gain enabled (0 - Auto, 1 - Sunny, 2 - Cloudy, 3 - Office, 4 - Home)
-  sensor->set_exposure_ctrl(sensor, 1);               // 0 = disable , 1 = enable
-  sensor->set_aec2(sensor, 0);                        // 0 = disable , 1 = enable
-  sensor->set_ae_level(sensor, 0);                    // -2 to 2
-  sensor->set_aec_value(sensor, 300);                 // 0 to 1200
-  sensor->set_gain_ctrl(sensor, 1);                   // 0 = disable , 1 = enable
-  sensor->set_agc_gain(sensor, 0);                    // 0 to 30
-  sensor->set_gainceiling(sensor, (gainceiling_t)0);  // 0 to 6
-  sensor->set_bpc(sensor, 0);                         // 0 = disable , 1 = enable
-  sensor->set_wpc(sensor, 1);                         // 0 = disable , 1 = enable
-  sensor->set_raw_gma(sensor, 1);                     // 0 = disable , 1 = enable
-  sensor->set_lenc(sensor, 1);                        // 0 = disable , 1 = enable
-  sensor->set_hmirror(sensor, 0);                     // 0 = disable , 1 = enable
-  sensor->set_vflip(sensor, PHOTO_VERTICAL_FLIP);     // 0 = disable , 1 = enable
-  sensor->set_dcw(sensor, 1);                         // 0 = disable , 1 = enable
-  sensor->set_colorbar(sensor, 0);                    // 0 = disable , 1 = enable
+  Camera_SetCameraCfg();
 }
 
+void Camera_SetCameraCfg() {
+  Serial.println("Set camera CFG");
 
+  /* sensor configuration */
+  sensor_t * sensor = esp_camera_sensor_get();
+  sensor->set_brightness(sensor, CameraCfg.brightness);       // -2 to 2
+  sensor->set_contrast(sensor, CameraCfg.contrast);           // -2 to 2
+  sensor->set_saturation(sensor, CameraCfg.saturation);       // -2 to 2
+  sensor->set_special_effect(sensor, 0);                      // 0 to 6 (0 - No Effect, 1 - Negative, 2 - Grayscale, 3 - Red Tint, 4 - Green Tint, 5 - Blue Tint, 6 - Sepia)
+  sensor->set_whitebal(sensor, 1);                            // 0 = disable , 1 = enable
+  sensor->set_awb_gain(sensor, 1);                            // 0 = disable , 1 = enable
+  sensor->set_wb_mode(sensor, 0);                             // 0 to 4 - if awb_gain enabled (0 - Auto, 1 - Sunny, 2 - Cloudy, 3 - Office, 4 - Home)
+  sensor->set_exposure_ctrl(sensor, CameraCfg.exposure_ctrl); // 0 = disable , 1 = enable
+  sensor->set_aec2(sensor, 0);                                // 0 = disable , 1 = enable
+  sensor->set_ae_level(sensor, 0);                            // -2 to 2
+  sensor->set_aec_value(sensor, 300);                         // 0 to 1200
+  sensor->set_gain_ctrl(sensor, 1);                           // 0 = disable , 1 = enable
+  sensor->set_agc_gain(sensor, 0);                            // 0 to 30
+  sensor->set_gainceiling(sensor, (gainceiling_t)0);          // 0 to 6
+  sensor->set_bpc(sensor, 0);                                 // 0 = disable , 1 = enable
+  sensor->set_wpc(sensor, 1);                                 // 0 = disable , 1 = enable
+  sensor->set_raw_gma(sensor, 1);                             // 0 = disable , 1 = enable
+  sensor->set_lenc(sensor, CameraCfg.lensc);                  // 0 = disable , 1 = enable
+  sensor->set_hmirror(sensor, CameraCfg.hmirror);             // 0 = disable , 1 = enable
+  sensor->set_vflip(sensor, CameraCfg.vflip);                 // 0 = disable , 1 = enable
+  sensor->set_dcw(sensor, 1);                                 // 0 = disable , 1 = enable
+  sensor->set_colorbar(sensor, 0);                            // 0 = disable , 1 = enable
+}
+
+void Camera_Reinit() {
+  esp_camera_deinit();
+  Camera_InitCamera();
+}
 
 /* EOF */

@@ -6,6 +6,7 @@
 #include "img_converters.h"
 #include "soc/soc.h"           /* Disable brownour problems */
 #include "soc/rtc_cntl_reg.h"  /* Disable brownour problems */
+#include "cfg.h"
 
 
 #include "Camera_cfg.h"
@@ -14,6 +15,8 @@
 #include "var.h"
 
 void Camera_InitCamera();
+void Camera_SetCameraCfg();
+void Camera_Reinit();
 void Camera_CapturePhoto();
 
 #endif

@@ -7,4 +7,6 @@ String BackendReceivedData = "";
 String sToken = "";
 String sFingerprint = "";
 
+struct CameraCfg_struct CameraCfg;
+
 /* EOF */

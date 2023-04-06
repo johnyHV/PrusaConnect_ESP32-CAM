@@ -12,6 +12,85 @@ void Cfg_ReadCfg() {
   Cfg_LoadRefreshInterval();
   Cfg_LoadToken();
   Cfg_LoadFingerprint();
+  Cfg_LoadPhotoQuality();
+  Cfg_LoadFrameSize();
+  Cfg_LoadBrightness();
+  Cfg_LoadContrast();
+  Cfg_LoadSaturation();
+  Cfg_LoadHmirror();
+  Cfg_LoadVflip();
+  Cfg_LoadLensCorrect();
+  Cfg_LoadExposureCtrl();
+}
+
+/* set default cfg */
+void Cfg_DefaultCfg() {
+  Serial.println("Set default configuration!");
+
+  Cfg_SaveRefreshInterval(10);
+  //Cfg_SaveToken("");
+  //Cfg_SaveFingerprint("");
+  Cfg_SavePhotoQuality(20);
+  Cfg_SaveFrameSize(0);
+  Cfg_SaveBrightness(0);
+  Cfg_SaveContrast(0);
+  Cfg_SaveSaturation(0);
+  Cfg_SaveHmirror(0);
+  Cfg_SaveVflip(0);
+  Cfg_SaveLensCorrect(1);
+  Cfg_SaveExposureCtrl(1);
+}
+
+/* transform uint8_t from web interface to framesize_t */
+framesize_t Cfg_TransformFrameSizeDataType(uint8_t i_data) {
+  if ((i_data >= 0) && (i_data <= 6)) {
+    switch (i_data) {
+      case 0:
+        return FRAMESIZE_QVGA;
+      case 1:
+        return FRAMESIZE_CIF;
+      case 2:
+        return FRAMESIZE_VGA;
+      case 3:
+        return FRAMESIZE_SVGA;
+      case 4:
+        return FRAMESIZE_XGA;
+      case 5:
+        return FRAMESIZE_SXGA;
+      case 6:
+        return FRAMESIZE_UXGA;
+    }
+  } else {
+    return FRAMESIZE_QVGA;
+  }
+
+  return FRAMESIZE_QVGA;
+}
+
+/* transform uint8_t from web interface to string */
+String Cfg_TransformFrameSizeToString(uint8_t i_data) {
+  if ((i_data >= 0) && (i_data <= 6)) {
+    switch (i_data) {
+      case 0:
+        return "QVGA (320 x 240)";
+      case 1:
+        return "CIF (352 x 288)";
+      case 2:
+        return "VGA (640 x 480)";
+      case 3:
+        return "SVGA (800 x 600)";
+      case 4:
+        return "XGA (1024 x 768)";
+      case 5:
+        return "SXGA (1280 x 1024)";
+      case 6:
+        return "UXGA (1600 x 1200)";
+    }
+  } else {
+    return "QVGA (320 x 240)";
+  }
+
+  return "QVGA (320 x 240)";
 }
 
 /* save refresh interval to eeprom */
@@ -65,6 +144,78 @@ void Cfg_SaveFingerprint(String i_fingerprint) {
   }
 }
 
+void Cfg_SavePhotoQuality(uint8_t i_data) {
+  Serial.print("Save PhotoQuality: ");
+  Serial.println(i_data);
+
+  EEPROM.write(EEPROM_ADDR_PHOTO_QUALITY_START, i_data);
+  EEPROM.commit();
+}
+
+void Cfg_SaveFrameSize(uint8_t i_data) {
+  Serial.print("Save FrameSize: ");
+  Serial.println(i_data);
+
+  EEPROM.write(EEPROM_ADDR_FRAMESIZE_START, i_data);
+  EEPROM.commit();
+}
+
+void Cfg_SaveBrightness(int8_t i_data) {
+  Serial.print("Save Brightness: ");
+  Serial.println(i_data);
+
+  EEPROM.write(EEPROM_ADDR_BRIGHTNESS_START, i_data);
+  EEPROM.commit();
+}
+
+void Cfg_SaveContrast(int8_t i_data) {
+  Serial.print("Save Contrast: ");
+  Serial.println(i_data);
+
+  EEPROM.write(EEPROM_ADDR_CONTRAST_START, i_data);
+  EEPROM.commit();
+}
+
+void Cfg_SaveSaturation(int8_t i_data) {
+  Serial.print("Save Saturation: ");
+  Serial.println(i_data);
+
+  EEPROM.write(EEPROM_ADDR_SATURATION_START, i_data);
+  EEPROM.commit();
+}
+
+void Cfg_SaveHmirror(bool i_data) {
+  Serial.print("Save Hmirror: ");
+  Serial.println(i_data);
+
+  EEPROM.write(EEPROM_ADDR_HMIRROR_START, i_data);
+  EEPROM.commit();
+}
+
+void Cfg_SaveVflip(bool i_data) {
+  Serial.print("Save vflip: ");
+  Serial.println(i_data);
+
+  EEPROM.write(EEPROM_ADDR_VFLIP_START, i_data);
+  EEPROM.commit();
+}
+
+void Cfg_SaveLensCorrect(bool i_data) {
+  Serial.print("Save lensc: ");
+  Serial.println(i_data);
+
+  EEPROM.write(EEPROM_ADDR_LENSC_START, i_data);
+  EEPROM.commit();
+}
+
+void Cfg_SaveExposureCtrl(bool i_data) {
+  Serial.print("Save exposure_ctrl: ");
+  Serial.println(i_data);
+
+  EEPROM.write(EEPROM_ADDR_EXPOSURE_CTRL_START, i_data);
+  EEPROM.commit();
+}
+
 /* load refresh interval from eeprom */
 void Cfg_LoadRefreshInterval() {
   RefreshInterval = EEPROM.read(EEPROM_ADDR_REFRESH_INTERVAL_START);
@@ -81,7 +232,7 @@ void Cfg_LoadToken() {
   Serial.print(len);
   Serial.print("]: ");
 
-  if ((len <= EEPROM_ADDR_TOKEN_LENGTH) && (len > 0)){
+  if ((len <= EEPROM_ADDR_TOKEN_LENGTH) && (len > 0)) {
     for (uint8_t i = EEPROM_ADDR_TOKEN_START + 1, j = 0; j < len; i++, j++) {
       tmp += (char) EEPROM.read(i);
     }
@@ -111,6 +262,60 @@ void Cfg_LoadFingerprint() {
   Serial.print(tmp);
   Serial.print(" -> ");
   Serial.println(sFingerprint);
+}
+
+void Cfg_LoadPhotoQuality() {
+  CameraCfg.PhotoQuality = EEPROM.read(EEPROM_ADDR_PHOTO_QUALITY_START);
+  Serial.print("PhotoQuality: ");
+  Serial.println(CameraCfg.PhotoQuality);
+}
+
+void Cfg_LoadFrameSize() {
+  CameraCfg.FrameSize = EEPROM.read(EEPROM_ADDR_FRAMESIZE_START);
+  Serial.print("FrameSize: ");
+  Serial.println(CameraCfg.FrameSize);
+}
+
+void Cfg_LoadBrightness() {
+  CameraCfg.brightness = EEPROM.read(EEPROM_ADDR_BRIGHTNESS_START);
+  Serial.print("brightness: ");
+  Serial.println(CameraCfg.brightness);
+}
+
+void Cfg_LoadContrast() {
+  CameraCfg.contrast = EEPROM.read(EEPROM_ADDR_CONTRAST_START);
+  Serial.print("contrast: ");
+  Serial.println(CameraCfg.contrast);
+}
+
+void Cfg_LoadSaturation() {
+  CameraCfg.saturation = EEPROM.read(EEPROM_ADDR_SATURATION_START);
+  Serial.print("saturation: ");
+  Serial.println(CameraCfg.saturation);
+}
+
+void Cfg_LoadHmirror() {
+  CameraCfg.hmirror = EEPROM.read(EEPROM_ADDR_HMIRROR_START);
+  Serial.print("hmirror: ");
+  Serial.println(CameraCfg.hmirror);
+}
+
+void Cfg_LoadVflip() {
+  CameraCfg.vflip = EEPROM.read(EEPROM_ADDR_VFLIP_START);
+  Serial.print("vflip: ");
+  Serial.println(CameraCfg.vflip);
+}
+
+void Cfg_LoadLensCorrect() {
+  CameraCfg.lensc = EEPROM.read(EEPROM_ADDR_LENSC_START);
+  Serial.print("lensc: ");
+  Serial.println(CameraCfg.lensc);
+}
+
+void Cfg_LoadExposureCtrl() {
+  CameraCfg.exposure_ctrl = EEPROM.read(EEPROM_ADDR_EXPOSURE_CTRL_START);
+  Serial.print("exposure_ctrl: ");
+  Serial.println(CameraCfg.exposure_ctrl);
 }
 
 /* EOF */

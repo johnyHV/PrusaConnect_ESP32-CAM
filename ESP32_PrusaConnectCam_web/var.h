@@ -11,6 +11,21 @@ extern String BackendReceivedData;    /* here is saved response from prusa backe
 extern String sToken;                 /* token for authentification to prusa backend */
 extern String sFingerprint;           /* fingerprint for autentification to prusa backend */
 
+struct CameraCfg_struct {
+  uint8_t PhotoQuality;
+  uint8_t FrameSize;
+  int8_t brightness;
+  int8_t contrast;
+  int8_t saturation;
+
+  bool hmirror;
+  bool vflip;
+  bool lensc;
+  bool exposure_ctrl;
+};
+
+extern struct CameraCfg_struct CameraCfg;
+
 #endif
 
 /* EOF */

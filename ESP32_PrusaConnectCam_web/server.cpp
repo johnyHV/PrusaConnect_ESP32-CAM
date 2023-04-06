@@ -38,6 +38,19 @@ void Server_InitWebServer() {
     request->send_P(200, "text/plain", "Change LED status");
   });
 
+  server.on("/reset", HTTP_GET, [](AsyncWebServerRequest * request) {
+    Serial.println("WEB server: Reset configuration to default!");
+    Cfg_DefaultCfg();
+    request->send_P(200, F("text/html"), MSG_SAVE_OK);
+    Camera_SetCameraCfg();
+  });
+
+  server.on("/reboot", HTTP_GET, [](AsyncWebServerRequest * request) {
+    Serial.println("WEB server: reboot MCU!");
+    request->send_P(200, F("text/html"), MSG_SAVE_OK);
+    ESP.restart();
+  });
+
   /* route for set refresh interval */
   server.on("/refresh", HTTP_GET, [](AsyncWebServerRequest * request) {
     Serial.println("WEB server: set refresh interval");
@@ -69,6 +82,110 @@ void Server_InitWebServer() {
       sFingerprint = request->getParam("fingerprint")->value();
       Cfg_SaveFingerprint(sFingerprint);
     }
+  });
+
+  /* route for set photo quality */
+  server.on("/photo_quality", HTTP_GET, [](AsyncWebServerRequest * request) {
+    Serial.println("WEB server: set Fingerprint");
+    request->send_P(200, F("text/html"), MSG_SAVE_OK);
+
+    if (request->hasParam("photo_quality")) {
+      CameraCfg.PhotoQuality = request->getParam("photo_quality")->value().toInt();
+      Cfg_SavePhotoQuality(CameraCfg.PhotoQuality);
+      //Camera_SetCameraCfg();
+      Camera_Reinit();
+    }
+  });
+
+  /* route for set framesize */
+  server.on("/framesize", HTTP_GET, [](AsyncWebServerRequest * request) {
+    Serial.println("WEB server: set framesize");
+    request->send_P(200, F("text/html"), MSG_SAVE_OK);
+
+    if (request->hasParam("framesize")) {
+      CameraCfg.FrameSize = request->getParam("framesize")->value().toInt();
+      Cfg_SaveFrameSize(CameraCfg.FrameSize);
+      //Camera_SetCameraCfg();
+      Camera_Reinit();
+    }
+  });
+
+  /* route for set brightness */
+  server.on("/brightness", HTTP_GET, [](AsyncWebServerRequest * request) {
+    Serial.println("WEB server: set brightness");
+    request->send_P(200, F("text/html"), MSG_SAVE_OK);
+
+    if (request->hasParam("brightness")) {
+      CameraCfg.brightness = request->getParam("brightness")->value().toInt();
+      Cfg_SaveBrightness(CameraCfg.brightness);
+      Camera_SetCameraCfg();
+    }
+  });
+
+  /* route for set contrast */
+  server.on("/contrast", HTTP_GET, [](AsyncWebServerRequest * request) {
+    Serial.println("WEB server: set contrast");
+    request->send_P(200, F("text/html"), MSG_SAVE_OK);
+
+    if (request->hasParam("contrast")) {
+      CameraCfg.contrast = request->getParam("contrast")->value().toInt();
+      Cfg_SaveContrast(CameraCfg.contrast);
+      Camera_SetCameraCfg();
+    }
+  });
+
+  /* route for set saturation */
+  server.on("/saturation", HTTP_GET, [](AsyncWebServerRequest * request) {
+    Serial.println("WEB server: set saturation");
+    request->send_P(200, F("text/html"), MSG_SAVE_OK);
+
+    if (request->hasParam("saturation")) {
+      CameraCfg.saturation = request->getParam("saturation")->value().toInt();
+      Cfg_SaveSaturation(CameraCfg.saturation);
+      Camera_SetCameraCfg();
+    }
+  });
+
+  /* route for set actions */
+  server.on("/action_page", HTTP_GET, [](AsyncWebServerRequest * request) {
+    Serial.println("WEB server: set saturation");
+    request->send_P(200, F("text/html"), MSG_SAVE_OK);
+
+    /* check cfg for hmirror */
+    if (request->hasParam("hmirror")) {
+      CameraCfg.hmirror = request->getParam("hmirror")->value().toInt();
+    } else {
+      CameraCfg.hmirror = 0;
+    }
+    Cfg_SaveHmirror(CameraCfg.hmirror);
+
+    /* check cfg for vflip */
+    if (request->hasParam("vflip")) {
+      CameraCfg.vflip = request->getParam("vflip")->value().toInt();
+    } else {
+      CameraCfg.vflip = 0;
+    }
+    Cfg_SaveVflip(CameraCfg.vflip);
+
+    /* check cfg for lensc */
+    if (request->hasParam("lenc")) {
+      CameraCfg.lensc = request->getParam("lenc")->value().toInt();
+    } else {
+      CameraCfg.lensc = 0;
+    }
+    Cfg_SaveLensCorrect(CameraCfg.lensc);
+
+    /* check cfg for exposure_ctrl */
+    if (request->hasParam("exposure_ctrl")) {
+      CameraCfg.exposure_ctrl = request->getParam("exposure_ctrl")->value().toInt();
+    } else {
+      CameraCfg.exposure_ctrl = 0;
+    }
+
+    /* save cfg */
+    Cfg_SaveExposureCtrl(CameraCfg.exposure_ctrl);
+    /* set parameters on the camera */
+    Camera_SetCameraCfg();
   });
 
   /* route for json with cfg parameters */
@@ -183,12 +300,56 @@ String Server_GetJsonData() {
   data = "{\"token\" : \"";
   data += sToken;
   data += "\", ";
+
   data += "\"fingerprint\" : \"";
   data += sFingerprint;
   data += "\", ";
+
   data += "\"refreshInterval\" : \"";
   data += String(RefreshInterval);
   data += "\", ";
+
+  data += "\"photoquality\" : \"";
+  data += String(CameraCfg.PhotoQuality);
+  data += "\", ";
+
+  data += "\"framesize\" : \"";
+  data += Cfg_TransformFrameSizeToString(CameraCfg.FrameSize);
+  data += "\", ";
+
+  data += "\"brightness\" : \"";
+  data += String(CameraCfg.brightness);
+  data += "\", ";
+
+  data += "\"contrast\" : \"";
+  data += String(CameraCfg.contrast);
+  data += "\", ";
+
+  data += "\"saturation\" : \"";
+  data += String(CameraCfg.saturation);
+  data += "\", ";
+
+  data += "\"hmirror\" : \"";
+  data += (CameraCfg.hmirror == 1) ? "true" : "false";
+  data += "\", ";
+
+  data += "\"vflip\" : \"";
+  data += (CameraCfg.vflip == 1) ? "true" : "false";
+  data += "\", ";
+
+  data += "\"lensc\" : \"";
+  data += (CameraCfg.lensc == 1) ? "true" : "false";
+  data += "\", ";
+
+  data += "\"exposure_ctrl\" : \"";
+  data += (CameraCfg.exposure_ctrl == 1) ? "true" : "false";
+  data += "\", ";
+
+  bool led = digitalRead(FLASH_GPIO_NUM);
+  data += "\"led\" : \"";
+  data += (led == true) ? "ON" : "OFF";
+  data += "\", ";
+
   data += "\"sw_ver\" : \"";
   data += SW_VERSION;
   data += "\" }";
