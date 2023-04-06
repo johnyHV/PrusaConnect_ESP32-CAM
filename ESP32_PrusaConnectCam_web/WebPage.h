@@ -147,6 +147,9 @@ const char index_html[] PROGMEM = R"rawliteral(
             <td>Led Status</td><td id="led"></td>
         </tr>
         <tr>
+            <td>Signal Strength (RSSI) [dBm]:</td><td id="rssi"></td>
+        </tr>
+        <tr>
             <td>SW version</td><td id="sw_ver"></td>
         </tr>
       </table>
@@ -361,6 +364,7 @@ const char index_html[] PROGMEM = R"rawliteral(
               $("#lensc").text(obj.lensc);
               $("#exposure_ctrl").text(obj.exposure_ctrl);
               $("#led").text(obj.led);
+              $("#rssi").text(obj.rssi);
               $("#sw_ver").text(obj.sw_ver);
             },
             error: function(html) {

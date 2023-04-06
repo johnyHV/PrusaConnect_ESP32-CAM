@@ -42,7 +42,7 @@ void Server_InitWebServer() {
     Serial.println("WEB server: Reset configuration to default!");
     Cfg_DefaultCfg();
     request->send_P(200, F("text/html"), MSG_SAVE_OK);
-    Camera_SetCameraCfg();
+    Camera_Reinit();
   });
 
   server.on("/reboot", HTTP_GET, [](AsyncWebServerRequest * request) {
@@ -348,6 +348,10 @@ String Server_GetJsonData() {
   bool led = digitalRead(FLASH_GPIO_NUM);
   data += "\"led\" : \"";
   data += (led == true) ? "ON" : "OFF";
+  data += "\", ";
+
+  data += "\"rssi\" : \"";
+  data += String(WiFi.RSSI());
   data += "\", ";
 
   data += "\"sw_ver\" : \"";

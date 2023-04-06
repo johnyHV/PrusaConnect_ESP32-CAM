@@ -27,8 +27,8 @@
 
 /* CFG variable */
 /* Replace with your network credentials */
-//const char* ssid     =      "SSID";
-//const char* password =      "PASSWORD";
+const char* ssid     =      "SSID";
+const char* password =      "PASSWORD";
 
 void setup() {
   /* Serial port for debugging purposes */
@@ -36,7 +36,7 @@ void setup() {
   Serial.println("Start MCU!");
   Serial.print("SW Version: ");
   Serial.println(SW_VERSION);
-
+  
   /* read cfg from EEPROM */
   Cfg_Init();
 
@@ -48,6 +48,9 @@ void setup() {
     Serial.print(".");
   }
   Serial.println("");
+  Serial.print("Signal Strength (RSSI): ");
+  Serial.print(WiFi.RSSI());
+  Serial.println(" dBm");
 
   /* Print ESP32 Local IP Address */
   Serial.print("IP Address: http://");

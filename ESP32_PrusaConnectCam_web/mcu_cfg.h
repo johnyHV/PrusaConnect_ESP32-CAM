@@ -1,7 +1,7 @@
 #ifndef _MCU_CFG_H_
 #define _MCU_CFG_H_
 
-#define SW_VERSION         "1.1.2"
+#define SW_VERSION         "1.1.3"
 
 #define HOST_URL           "https://webcam.connect.prusa3d.com/c/snapshot" /* Prusa Connect server URL for photo */
 #define DOMAIN             "webcam.connect.prusa3d.com"                    /* prusa connect server */
