@@ -142,6 +142,7 @@ This SW version use **WEB interface** for settings **token** and **fingerprint**
 - 25.2.2023 - added documentation
 - 27.2.2023 - added version of the application with WEB interface for MCU configuration **ESP32_PrusaConnectCam_web**. app **version 1.1**
 - 6.4.2023  - added several parameters for camera configuration for **ESP32_PrusaConnectCam_web**. app **version 1.1.2**
+- 6.4.2023  - fix issue with default configuration, added RSSI information on the root WEB page about signal quality for **ESP32_PrusaConnectCam_web**. app **version 1.1.3**
 
 # TO-DO
 - add additional parameters for camera configuration
