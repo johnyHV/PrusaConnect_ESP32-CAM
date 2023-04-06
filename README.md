@@ -128,15 +128,20 @@ This SW version use **WEB interface** for settings **token** and **fingerprint**
 
 ![Image description](manual_img/31.jpg)
 
-- now you can go to the WEB page and set the token and fingerprint
+- now you can go to the WEB page and set the token and fingerprint. On the root page it's possible configuration camera parameters like as photo quality, photo size, photo vertical flip or horizontal mirror and so on
 
-![Image description](manual_img/30.jpg)
+![Image description](manual_img/34.jpg)
+
+- the page also shows the current MCU configuration. The configuration is stored in the internal memory of the MCU
+
+![Image description](manual_img/33.jpg)
 
 # Changelog
 - 24.2.2023 - Init repository
 - 25.2.2023 - added **ESP32_PrusaConnectCam** app **version 1.0** (the source code is not optimal, but it is functional)
 - 25.2.2023 - added documentation
 - 27.2.2023 - added version of the application with WEB interface for MCU configuration **ESP32_PrusaConnectCam_web**. app **version 1.1**
+- 6.4.2023  - added several parameters for camera configuration for **ESP32_PrusaConnectCam_web**. app **version 1.1.2**
 
 # TO-DO
-- WEB page for configuration camera size, picture quality...
+- add additional parameters for camera configuration
