@@ -38,8 +38,10 @@ At the first step we need install to Arduino IDE support for ESP32 board. **file
 Then we can select board version **Tools -> Board -> ESP32 Arduino -> AI Thinker ESP32**
 
 **Apps/module versions used for development**
-- Arduino IDE 1.8.19
-- ESP32 2.0.7 
+- [Arduino IDE 1.8.19](https://www.arduino.cc/en/software)
+- [ESP32 2.0.11](https://github.com/espressif/arduino-esp32)
+- [ESPAsyncWebSrv 1.2.6](https://github.com/dvarrel/ESPAsyncWebSrv)
+- [AsyncTCP 1.1.4](https://github.com/dvarrel/AsyncTCP)
 
 <a name="token_finger"></a>
 ## How to get fingerprint and token ID
