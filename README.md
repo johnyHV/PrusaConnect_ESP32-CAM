@@ -42,28 +42,17 @@ Then we can select board version **Tools -> Board -> ESP32 Arduino -> AI Thinker
 - [ESP32 2.0.11](https://github.com/espressif/arduino-esp32)
 - [ESPAsyncWebSrv 1.2.6](https://github.com/dvarrel/ESPAsyncWebSrv)
 - [AsyncTCP 1.1.4](https://github.com/dvarrel/AsyncTCP)
+- [UniqueID 1.1.3](https://www.arduino.cc/reference/en/libraries/arduinouniqueid/)
 
 <a name="token_finger"></a>
 ## How to get fingerprint and token ID
-**Step 1.** Go to [PrusaConnect WEB page](https://connect.prusa3d.com/) . Then in the **left side** click to **Cameras**. And click to **"ADD NEW CAMERA"**
+**Step 1.** Go to [PrusaConnect WEB page](https://connect.prusa3d.com/) . Then in the **left side** click to **Cameras**. Then Prusa now have two buttons **"ADD NEW WEB CAMERA"** and **"Add new other camera"**. We need use button **"Add new other camera"**
 
-![Image description](manual_img/01.jpg)
+![Image description](manual_img/35.jpg)
 
-**Step 2.** Next step is click to **QR code**. 
+**Step 2.** Prusa now automatically generated just **token**. **Fingerprint** is generated on the camera devices. So just copy the **token** and paste it on the web page of the camera. 
 
-![Image description](manual_img/02.jpg)
-
-**Step 3.** After click to QR code, is automatically open new window in the browser. (my laptop camera is covered, that's why you see a black screen)
-
-![Image description](manual_img/03.jpg)
-
-**Step 4.** In the new window, is in the bottom right side button **"Start camera"**. Click to **"Start camera"** and go to **developer mode** in the **browser** (for developer mode in the chrome, we can use F12). 
-
-![Image description](manual_img/04.jpg)
-
-**Step 5.** Now please go to section **"Application"**, and in the left side section **Storage -> Local Storage -> https://webcam.connect.prusa3d.com** . And here we can see variables **fingerprint** and **token**. **Please copy the values**
-
-![Image description](manual_img/04.jpg)
+![Image description](manual_img/36.jpg)
 
 <a name="cert"></a>
 ## ISRG Root X1 certificate for the PrusaConnect site
@@ -94,7 +83,8 @@ Now we can open the certificate in a text editor and save it in the source code
 ![Image description](manual_img/15.jpg)
 
 <a name="mcu_10"></a>
-## How to configure MCU
+## How to configure MCU (without WEB interface)
+This is an old approach, and the source code is not maintained
 Board version is **Tools -> Board -> ESP32 Arduino -> AI Thinker ESP32**. In the source code we can see several variable
 
 ![Image description](manual_img/20.jpg)
@@ -122,7 +112,7 @@ in the file **Certificate.h** is stored **ISRG Root X1 certificate**
 ## How to configure MCU with WEB interface
 Board version is **Tools -> Board -> ESP32 Arduino -> AI Thinker ESP32**. In the source code we can see several variable
 
-This SW version use **WEB interface** for settings **token** and **fingerprint** variable. And there is an added option to turn **on/off the LED** using the WEB page. All variables is stored in the internal **FLASH memory**. 
+This SW version use **WEB interface** for settings **token** variable. And there is an added option to turn **on/off the LED** using the WEB page. All variables is stored in the internal **FLASH memory**. 
 
 - change the WI-FI ssid and password for WI-FI (line 30 and 31 on the file ESP32_PrusaConnectCam_web.ino). 
 - compile the code and upload it to the MCU
@@ -145,6 +135,7 @@ This SW version use **WEB interface** for settings **token** and **fingerprint**
 - 27.2.2023 - added version of the application with WEB interface for MCU configuration **ESP32_PrusaConnectCam_web**. app **version 1.1**
 - 6.4.2023  - added several parameters for camera configuration for **ESP32_PrusaConnectCam_web**. app **version 1.1.2**
 - 6.4.2023  - fix issue with default configuration, added RSSI information on the root WEB page about signal quality for **ESP32_PrusaConnectCam_web**. app **version 1.1.3**
+- 16.9.2023 -Prusa has officially released the possibility of generating a token for a camera with an official API. This version has implemented compatibility with the official Prusa API. Added detection of the first MCU start, and fingerprint generation. **WARNING! Before uploading this SW version to the MCU, please back up your configuration. This version clear currently saved configuration in the MCU!** app **version 1.1.4**
 
 # TO-DO
 - add additional parameters for camera configuration
