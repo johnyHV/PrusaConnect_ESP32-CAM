@@ -45,7 +45,7 @@ Then we can select board version **Tools -> Board -> ESP32 Arduino -> AI Thinker
 - [UniqueID 1.1.3](https://www.arduino.cc/reference/en/libraries/arduinouniqueid/)
 
 <a name="token_finger"></a>
-## How to get fingerprint and token ID
+## How to get a token ID
 **Step 1.** Go to [PrusaConnect WEB page](https://connect.prusa3d.com/) . Then in the **left side** click to **Cameras**. Then Prusa now have two buttons **"ADD NEW WEB CAMERA"** and **"Add new other camera"**. We need use button **"Add new other camera"**
 
 ![Image description](manual_img/35.jpg)
@@ -84,7 +84,7 @@ Now we can open the certificate in a text editor and save it in the source code
 
 <a name="mcu_10"></a>
 ## How to configure MCU (without WEB interface)
-This is an old approach, and the source code is not maintained
+This is an old approach, and the source code is not maintained.
 Board version is **Tools -> Board -> ESP32 Arduino -> AI Thinker ESP32**. In the source code we can see several variable
 
 ![Image description](manual_img/20.jpg)
