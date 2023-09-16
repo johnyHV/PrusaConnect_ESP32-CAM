@@ -19,6 +19,7 @@
 #include <WiFi.h>
 #include "Arduino.h"
 #include <esp_task_wdt.h>
+#include <ESPmDNS.h>
 
 #include "server.h"
 #include "cfg.h"
@@ -57,6 +58,17 @@ void setup() {
   Serial.print("IP Address: http://");
   Serial.println(WiFi.localIP());
 
+  /* Init MDNS record */
+  Serial.println(F("----------------------------------------------------------------"));
+  Serial.print("Starting mDNS record: http://");
+  Serial.print(MDNS_RECORD_HOST);
+  Serial.println(".local");
+  if (!MDNS.begin(MDNS_RECORD_HOST)) {
+    Serial.println("Error starting mDNS");
+  } else {
+    Serial.println("Starting mDNS OK");
+  }
+  
   /* init camera interface */
   Camera_InitCamera();
   Camera_CapturePhoto();

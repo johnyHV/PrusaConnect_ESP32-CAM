@@ -1,7 +1,7 @@
 #ifndef _MCU_CFG_H_
 #define _MCU_CFG_H_
 
-#define SW_VERSION         "1.1.4"
+#define SW_VERSION         "1.1.5"
 
 #define HOST_URL           "https://webcam.connect.prusa3d.com/c/snapshot" /* Prusa Connect server URL for photo */
 #define DOMAIN             "webcam.connect.prusa3d.com"                    /* prusa connect server */
@@ -9,6 +9,7 @@
 #define FLASH_STATUS        LOW             /* enable/disable Flash LED. HIGH - turn ON, LOW - turn off */
 
 #define SERVER_PORT         80              /* WEB server port */
+#define MDNS_RECORD_HOST    "prusa-esp32cam"/* mdns record http://MDNS_RECORD_HOST.local */
 #define SERIAL_PORT_SPEER   115200          /* baud rate */
 #define WDT_TIMEOUT         50              /* wdg timeout second */
 #define PHOTO_FRAGMENT_SIZE 9000            /* photo fragmentation size */
