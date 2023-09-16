@@ -136,7 +136,7 @@ This SW version use **WEB interface** for settings **token** variable. And there
 - 6.4.2023  - added several parameters for camera configuration for **ESP32_PrusaConnectCam_web**. app **version 1.1.2**
 - 6.4.2023  - fix issue with default configuration, added RSSI information on the root WEB page about signal quality for **ESP32_PrusaConnectCam_web**. app **version 1.1.3**
 - 16.9.2023 - Prusa has officially released the possibility of generating a token for a camera with an official API. This version has implemented compatibility with the official Prusa API. Added detection of the first MCU start, and fingerprint generation. **WARNING! Before uploading this SW version to the MCU, please back up your configuration. This version clear currently saved configuration in the MCU!** app **version 1.1.4**
-- 16.9.2023 - added mDNS record http://prusa-esp32cam.local
+- 16.9.2023 - added mDNS record http://prusa-esp32cam.local **version 1.1.5**
   
 # TO-DO
 - add additional parameters for camera configuration
