@@ -170,18 +170,6 @@ const char index_html[] PROGMEM = R"rawliteral(
       
       <tr>
         <td>
-          Fingerprint:
-        </td>
-        <td>
-          <form action="/fingerprint">
-            <input type="text" name="fingerprint" value="Your fingerprint">
-            <input type="submit" value="Save">
-          </form>
-        </td>
-      </tr>
-      
-      <tr>
-        <td>
           Refresh interval [sec]:
         </td>
         <td>

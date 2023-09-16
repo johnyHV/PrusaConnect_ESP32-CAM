@@ -6,6 +6,7 @@ String BackendReceivedData = "";
 
 String sToken = "";
 String sFingerprint = "";
+String WifiMacAddr = "";
 
 struct CameraCfg_struct CameraCfg;
 

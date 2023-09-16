@@ -73,17 +73,6 @@ void Server_InitWebServer() {
     }
   });
 
-  /* route for set fingerprint for authentification to prusa backend */
-  server.on("/fingerprint", HTTP_GET, [](AsyncWebServerRequest * request) {
-    Serial.println("WEB server: set Fingerprint");
-    request->send_P(200, F("text/html"), MSG_SAVE_OK);
-
-    if (request->hasParam("fingerprint")) {
-      sFingerprint = request->getParam("fingerprint")->value();
-      Cfg_SaveFingerprint(sFingerprint);
-    }
-  });
-
   /* route for set photo quality */
   server.on("/photo_quality", HTTP_GET, [](AsyncWebServerRequest * request) {
     Serial.println("WEB server: set Fingerprint");

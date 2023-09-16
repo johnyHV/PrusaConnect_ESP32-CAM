@@ -2,8 +2,18 @@
 
 /* init cfg module */
 void Cfg_Init() {
+  Serial.print("Init cfg module [");
+  Serial.print(EEPROM_SIZE);
+  Serial.println("]");
   EEPROM.begin(EEPROM_SIZE);
 
+  /* check, when it is first MCU start. If yes, then set default CFG */
+  if (Cfg_CheckFirstMcuStart() == true) {
+    Cfg_SaveFirstMcuStartFlag(CFG_FIRST_MCU_START_NAK);
+    Cfg_DefaultCfg();
+  }
+
+  /* read cfg from eeprom */
   Cfg_ReadCfg();
 }
 
@@ -28,8 +38,8 @@ void Cfg_DefaultCfg() {
   Serial.println("Set default configuration!");
 
   Cfg_SaveRefreshInterval(10);
-  //Cfg_SaveToken("");
-  //Cfg_SaveFingerprint("");
+  Cfg_SaveToken("");
+  Cfg_GetFingerprint();
   Cfg_SavePhotoQuality(20);
   Cfg_SaveFrameSize(0);
   Cfg_SaveBrightness(0);
@@ -39,6 +49,42 @@ void Cfg_DefaultCfg() {
   Cfg_SaveVflip(0);
   Cfg_SaveLensCorrect(1);
   Cfg_SaveExposureCtrl(1);
+}
+
+void Cfg_GetFingerprint() {
+  String Id = "";
+  for (size_t i = 0; i < UniqueIDsize; i++) {
+    Id += String(UniqueID[i]);
+  }
+  String encoded = base64::encode(Id + " " + WifiMacAddr);
+
+  Cfg_SaveFingerprint(encoded);
+
+  Serial.print("UniqueID: ");
+  Serial.println(Id);
+
+  Serial.print("WiFi MAC: ");
+  Serial.println(WifiMacAddr);
+
+  Serial.print("Encoded: ");
+  Serial.println(encoded);
+}
+
+/* Function for check if it's first MCU start */
+bool Cfg_CheckFirstMcuStart() {
+  Serial.print("Read FirstMcuStart: ");
+  uint8_t flag = EEPROM.read(EEPROM_ADDR_FIRST_MCU_START_FLAG_START);
+  Serial.print(flag);
+
+  if (CFG_FIRST_MCU_START_NAK == flag) {
+    Serial.println(" - FALSE!");
+    return false;
+  } else {
+    Serial.println(" - TRUE!");
+    return true;
+  }
+
+  return false;
 }
 
 /* transform uint8_t from web interface to framesize_t */
@@ -213,6 +259,15 @@ void Cfg_SaveExposureCtrl(bool i_data) {
   Serial.println(i_data);
 
   EEPROM.write(EEPROM_ADDR_EXPOSURE_CTRL_START, i_data);
+  EEPROM.commit();
+}
+
+/* save flag about first MCU start. for settings basic auth and more */
+void Cfg_SaveFirstMcuStartFlag(uint8_t i_data) {
+  Serial.print("Save first MCU start flag: ");
+  Serial.println(i_data);
+
+  EEPROM.write(EEPROM_ADDR_FIRST_MCU_START_FLAG_START, i_data);
   EEPROM.commit();
 }
 

@@ -38,6 +38,7 @@ void setup() {
   Serial.println(SW_VERSION);
   
   /* read cfg from EEPROM */
+  WifiMacAddr = WiFi.macAddress();
   Cfg_Init();
 
   /* Connect to Wi-Fi */
