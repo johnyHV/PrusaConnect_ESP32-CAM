@@ -10,7 +10,6 @@ What we need for functionality
 - Install the necessary libraries in the Arduino IDE [ here ](#arduino)
 - Get Token ID and Fingerprint from new camera in the PrusaConnect [ here ](#token_finger)
 - Get an ISRG Root X1 certificate for the PrusaConnect site [ here ](#cert)
-- How to configure [ESP32_PrusaConnectCam](https://github.com/johnyHV/PrusaConnect_ESP32-CAM/tree/master/ESP32_PrusaConnectCam) SW [ here ](#mcu_10)
 - How to configure [ESP32_PrusaConnectCam_web](https://github.com/johnyHV/PrusaConnect_ESP32-CAM/tree/master/ESP32_PrusaConnectCam_web) SW with WEB interface [ here ](#mcu_web)
 
 <a name="esp32"></a>
@@ -27,7 +26,7 @@ You must have a camera version **OV2640**. in the case of a different camera, it
 
 <a name="arduino"></a>
 ## Necessary libraries in the Arduino IDE
-On the Internet there are many good instructions on how to install libraries and support for the ESP-32 board to Arduino IDE. So I will describe it only briefly
+On the Internet there are many good instructions on how to install libraries and support for the ESP-32 board to Arduino IDE. So I will describe it only briefly.
 
 At the first step we need install to Arduino IDE support for ESP32 board. **file-> preferences -> additional boards managers URLs**
  ```
@@ -37,15 +36,17 @@ At the first step we need install to Arduino IDE support for ESP32 board. **file
 
 Then we can select board version **Tools -> Board -> ESP32 Arduino -> AI Thinker ESP32**
 
-**Apps/module versions used for development**
-- [Arduino IDE 1.8.19](https://www.arduino.cc/en/software)
-- [ESP32 2.0.11](https://github.com/espressif/arduino-esp32)
-- [ESPAsyncWebSrv 1.2.6](https://github.com/dvarrel/ESPAsyncWebSrv)
-- [AsyncTCP 1.1.4](https://github.com/dvarrel/AsyncTCP)
-- [UniqueID 1.1.3](https://www.arduino.cc/reference/en/libraries/arduinouniqueid/)
+Next step is install necessary libraries. Go to **Sketch -> Include library -> Manage Libraries...** or you can use **ctrl+shift+i** then is possible search necessary libraries, and installed their
+
+**Apps/module/library versions used for development**
+- App [Arduino IDE 1.8.19](https://www.arduino.cc/en/software)
+- MCU support [ESP32 2.0.11](https://github.com/espressif/arduino-esp32)
+- Library [ESPAsyncWebSrv 1.2.6](https://github.com/dvarrel/ESPAsyncWebSrv)
+- Library [AsyncTCP 1.1.4](https://github.com/dvarrel/AsyncTCP)
+- Library [UniqueID 1.1.3](https://www.arduino.cc/reference/en/libraries/arduinouniqueid/)
 
 <a name="token_finger"></a>
-## How to get fingerprint and token ID
+## How to get a token ID
 **Step 1.** Go to [PrusaConnect WEB page](https://connect.prusa3d.com/) . Then in the **left side** click to **Cameras**. Then Prusa now have two buttons **"ADD NEW WEB CAMERA"** and **"Add new other camera"**. We need use button **"Add new other camera"**
 
 ![Image description](manual_img/35.jpg)
@@ -82,32 +83,6 @@ Now we can open the certificate in a text editor and save it in the source code
 
 ![Image description](manual_img/15.jpg)
 
-<a name="mcu_10"></a>
-## How to configure MCU (without WEB interface)
-This is an old approach, and the source code is not maintained
-Board version is **Tools -> Board -> ESP32 Arduino -> AI Thinker ESP32**. In the source code we can see several variable
-
-![Image description](manual_img/20.jpg)
-
-the most important variables are
-- **ssid** -> WI-FI network SSID
-- **password** -> password for WI-FI network
-- **TOKEN** -> here is necessary  save token ID variable from prusaconnect WEB page
-- **FINGERPRINT** -> here is necessary  save fingerprint variable from prusaconnect WEB page
-
-other variables are
-- **PHOTO_FRAME_SIZE** -> this variable defined photo resolution. If the photo is too large (capacity size), the prusa connect website may reject the photo
-- **PHOTO_QUALITY** -> defined photo quality. 10 is best, 63 is the worst
-- **PHOTO_VERTICAL_FLIP** -> photo vertical flip
-- **FLASH_STATUS** -> LED status. HIGH - Led is ON, LOW - Led is off
-- **REFRESH_INTERVAL** -> how often is a photo uploaded to the prusa connect website. Uploading photos too often can cause increased costs for the Prusa company to operate the server. The setting in the official camera is 10,20,30 seconds.
-- **SERIAL_PORT_SPEER** -> baud rate for serial port
-- **WDT_TIMEOUT** -> watchdog timeout interval. if the software freezes, then the watchdog restarts the processor after a defined time interval. Currently, the value is set to 10 seconds
-
-in the file **Certificate.h** is stored **ISRG Root X1 certificate**
-
-![Image description](manual_img/21.jpg)
-
 <a name="mcu_web"></a>
 ## How to configure MCU with WEB interface
 Board version is **Tools -> Board -> ESP32 Arduino -> AI Thinker ESP32**. In the source code we can see several variable
@@ -115,6 +90,11 @@ Board version is **Tools -> Board -> ESP32 Arduino -> AI Thinker ESP32**. In the
 This SW version use **WEB interface** for settings **token** variable. And there is an added option to turn **on/off the LED** using the WEB page. All variables is stored in the internal **FLASH memory**. 
 
 - change the WI-FI ssid and password for WI-FI (line 30 and 31 on the file ESP32_PrusaConnectCam_web.ino). 
+  Here is example for WiFi configuration, where WiFi network name (SSID) is HomeNetwork and password is 12345678
+```
+const char* ssid     =      "HomeNetwork";
+const char* password =      "12345678";
+```
 - compile the code and upload it to the MCU
 - open the serial console and wait until the IP address of the WEB server is displayed
 
@@ -135,7 +115,8 @@ This SW version use **WEB interface** for settings **token** variable. And there
 - 27.2.2023 - added version of the application with WEB interface for MCU configuration **ESP32_PrusaConnectCam_web**. app **version 1.1**
 - 6.4.2023  - added several parameters for camera configuration for **ESP32_PrusaConnectCam_web**. app **version 1.1.2**
 - 6.4.2023  - fix issue with default configuration, added RSSI information on the root WEB page about signal quality for **ESP32_PrusaConnectCam_web**. app **version 1.1.3**
-- 16.9.2023 -Prusa has officially released the possibility of generating a token for a camera with an official API. This version has implemented compatibility with the official Prusa API. Added detection of the first MCU start, and fingerprint generation. **WARNING! Before uploading this SW version to the MCU, please back up your configuration. This version clear currently saved configuration in the MCU!** app **version 1.1.4**
-
+- 16.9.2023 - Prusa has officially released the possibility of generating a token for a camera with an official API. This version has implemented compatibility with the official Prusa API. Added detection of the first MCU start, and fingerprint generation. **WARNING! Before uploading this SW version to the MCU, please back up your configuration. This version clear currently saved configuration in the MCU!** app **version 1.1.4**
+- 16.9.2023 - added mDNS record http://prusa-esp32cam.local **version 1.1.5**
+  
 # TO-DO
 - add additional parameters for camera configuration
