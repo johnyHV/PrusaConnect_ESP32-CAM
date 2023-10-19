@@ -23,6 +23,7 @@ extern AsyncWebServer server;   /* global variable for web server */
 #define MSQ_SAVE_NOTOK    "<meta http-equiv=\"refresh\" content=\"1; url=/\" /> Save cfg NOT OK"
 
 void Server_InitWebServer();
+void Server_Restart();
 void Server_handleNotFound(AsyncWebServerRequest *);
 void Server_SendPhotoToPrusaBackend();
 String Server_GetJsonData();
