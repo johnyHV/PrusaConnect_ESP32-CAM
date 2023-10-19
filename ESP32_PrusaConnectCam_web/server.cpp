@@ -190,6 +190,12 @@ void Server_InitWebServer() {
   server.begin();
 }
 
+/* Stop and start the server if IP has changed */
+void Server_Restart() {
+  server.end();
+  server.begin();
+}
+
 /* if the page was not found on ESP, then print which page is not there */
 void Server_handleNotFound(AsyncWebServerRequest * request) {
   String message = "URL not Found\n\n";
@@ -208,6 +214,8 @@ void Server_handleNotFound(AsyncWebServerRequest * request) {
 
   request->send(404, "text/plain", message);
 }
+
+
 
 /* send photo to prusa backend server */
 void Server_SendPhotoToPrusaBackend() {

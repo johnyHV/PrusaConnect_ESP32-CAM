@@ -16,11 +16,12 @@
 */
 
 /* includes */
-#include <WiFi.h>
+
 #include "Arduino.h"
 #include <esp_task_wdt.h>
-#include <ESPmDNS.h>
 
+
+#include "wifi_control.h"
 #include "server.h"
 #include "cfg.h"
 #include "var.h"
@@ -42,32 +43,7 @@ void setup() {
   WifiMacAddr = WiFi.macAddress();
   Cfg_Init();
 
-  /* Connect to Wi-Fi */
-  WiFi.begin(ssid, password);
-  Serial.println("Connecting to WiFi");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.print(".");
-  }
-  Serial.println("");
-  Serial.print("Signal Strength (RSSI): ");
-  Serial.print(WiFi.RSSI());
-  Serial.println(" dBm");
-
-  /* Print ESP32 Local IP Address */
-  Serial.print("IP Address: http://");
-  Serial.println(WiFi.localIP());
-
-  /* Init MDNS record */
-  Serial.println(F("----------------------------------------------------------------"));
-  Serial.print("Starting mDNS record: http://");
-  Serial.print(MDNS_RECORD_HOST);
-  Serial.println(".local");
-  if (!MDNS.begin(MDNS_RECORD_HOST)) {
-    Serial.println("Error starting mDNS");
-  } else {
-    Serial.println("Starting mDNS OK");
-  }
+  Wifi_Connect(ssid, password);
   
   /* init camera interface */
   Camera_InitCamera();
@@ -91,6 +67,12 @@ void setup() {
 void loop() {
   Serial.println("----------------------------------------------------------------");
   Camera_CapturePhoto();
+  esp_task_wdt_reset();
+  if (WiFi.status() != WL_CONNECTED) { //Check again if it's connected
+
+    Wifi_Reconnect(ssid, password);
+    Server_Restart();
+  }
   Server_SendPhotoToPrusaBackend();
 
   /* reset wdg */
