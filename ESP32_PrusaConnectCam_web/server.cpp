@@ -135,6 +135,25 @@ void Server_InitWebServer() {
     }
   });
 
+  /* route for change camera flash status */
+  server.on("/camera_flash", HTTP_GET, [](AsyncWebServerRequest * request) {
+    Serial.println("WEB server: Change camera_flash status");
+    CameraCfg.CameraFlashStatus = !CameraCfg.CameraFlashStatus;
+    Cfg_SaveCameraFlash(CameraCfg.CameraFlashStatus);
+    request->send_P(200, F("text/html"), MSG_SAVE_OK);
+  });
+
+  /* route for set flash duration */
+  server.on("/camera_flash_duration", HTTP_GET, [](AsyncWebServerRequest * request) {
+    Serial.println("WEB server: set saturation");
+    request->send_P(200, F("text/html"), MSG_SAVE_OK);
+
+    if (request->hasParam("flashduration")) {
+      CameraCfg.CameraFlashDuration = request->getParam("flashduration")->value().toInt();
+      Cfg_SaveCameraFlashDuration(CameraCfg.CameraFlashDuration);
+    }
+  });
+
   /* route for set actions */
   server.on("/action_page", HTTP_GET, [](AsyncWebServerRequest * request) {
     Serial.println("WEB server: set saturation");
@@ -337,6 +356,14 @@ String Server_GetJsonData() {
   bool led = digitalRead(FLASH_GPIO_NUM);
   data += "\"led\" : \"";
   data += (led == true) ? "ON" : "OFF";
+  data += "\", ";
+
+  data += "\"camera_flash\" : \"";
+  data += (CameraCfg.CameraFlashStatus == 1) ? "true" : "false";
+  data += "\", ";
+
+  data += "\"camera_flash_duration\" : \"";
+  data += String(CameraCfg.CameraFlashDuration);
   data += "\", ";
 
   data += "\"rssi\" : \"";

@@ -31,6 +31,8 @@ void Cfg_SaveVflip(bool);
 void Cfg_SaveLensCorrect(bool);
 void Cfg_SaveExposureCtrl(bool);
 void Cfg_SaveFirstMcuStartFlag(uint8_t);
+void Cfg_SaveCameraFlash(bool);
+void Cfg_SaveCameraFlashDuration(uint16_t);
 
 void Cfg_LoadRefreshInterval();
 void Cfg_LoadToken();
@@ -44,6 +46,8 @@ void Cfg_LoadHmirror();
 void Cfg_LoadVflip();
 void Cfg_LoadLensCorrect();
 void Cfg_LoadExposureCtrl();
+void Cfg_LoadCameraFlash();
+void Cfg_LoadCameraFlashDuration();
 
 #endif
 

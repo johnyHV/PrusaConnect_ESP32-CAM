@@ -147,7 +147,13 @@ const char index_html[] PROGMEM = R"rawliteral(
             <td>Led Status</td><td id="led"></td>
         </tr>
         <tr>
-            <td>Signal Strength (RSSI) [dBm]:</td><td id="rssi"></td>
+            <td>Signal Strength (RSSI) [dBm]</td><td id="rssi"></td>
+        </tr>
+        <tr>
+            <td>Camera flash</td><td id="camera_flash"></td>
+        </tr>
+        <tr>
+            <td>Camera flash duration [ms]</td><td id="camera_flash_duration"></td>
         </tr>
         <tr>
             <td>SW version</td><td id="sw_ver"></td>
@@ -271,6 +277,7 @@ const char index_html[] PROGMEM = R"rawliteral(
       </tr>
       </table><br>
       
+      <h4>Photo configuration</h4>
       <form action="/action_page">
       <input type="checkbox" name="hmirror" value="1">
       <label for="hmirror"> Hmirror &emsp;&emsp;&emsp; - horizontal mirror</label><br>
@@ -285,7 +292,30 @@ const char index_html[] PROGMEM = R"rawliteral(
       <label for="exposure_ctrl"> exposure_ctrl &emsp; - Set exposure control</label><br>
         
       <input type="submit" value="Save">
-  </form>
+      </form>
+      
+      <br>
+      <h4>Camera Flash function</h4>
+      <table>
+      <tr><td>
+        Camera Flash function
+      </td><td>
+      <form action="/camera_flash">
+      <input type="submit" value="Enable/Disable">
+    </form>
+      </td>
+      <tr>
+      <td>
+          Camera flash duration [ms]
+        </td>
+        <td>
+          <form action="/camera_flash_duration">
+            <input type="text" name="flashduration" value="200">
+            <input type="submit" value="Save">
+          </form>
+        </td>
+        </tr>
+      </table>
     </div>
     
     <br><hr><h3>Picture</h3>
@@ -353,6 +383,8 @@ const char index_html[] PROGMEM = R"rawliteral(
               $("#exposure_ctrl").text(obj.exposure_ctrl);
               $("#led").text(obj.led);
               $("#rssi").text(obj.rssi);
+              $("#camera_flash").text(obj.camera_flash);
+              $("#camera_flash_duration").text(obj.camera_flash_duration);
               $("#sw_ver").text(obj.sw_ver);
             },
             error: function(html) {

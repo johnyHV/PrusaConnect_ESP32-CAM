@@ -37,7 +37,7 @@ void setup() {
   Serial.println("Start MCU!");
   Serial.print("SW Version: ");
   Serial.println(SW_VERSION);
-  
+
   /* read cfg from EEPROM */
   WifiMacAddr = WiFi.macAddress();
   Cfg_Init();
@@ -68,7 +68,7 @@ void setup() {
   } else {
     Serial.println("Starting mDNS OK");
   }
-  
+
   /* init camera interface */
   Camera_InitCamera();
   Camera_CapturePhoto();
@@ -90,7 +90,21 @@ void setup() {
 
 void loop() {
   Serial.println("----------------------------------------------------------------");
+  /* check wifi reconnecting */
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("Reconnecting to WiFi...");
+    WiFi.disconnect();
+    WiFi.reconnect();
+  } else if (WiFi.status() == WL_CONNECTED) {
+    char cstr[150];
+    sprintf(cstr, "Wifi connected. SSID: %s, RSSI: %d dBm, IP: %s \n", WiFi.SSID().c_str(), WiFi.RSSI(), WiFi.localIP().toString().c_str());
+    Serial.printf(cstr);
+  }
+
+  /* take photo */
   Camera_CapturePhoto();
+
+  /* send photo to backend */
   Server_SendPhotoToPrusaBackend();
 
   /* reset wdg */

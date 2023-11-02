@@ -23,6 +23,9 @@ struct CameraCfg_struct {
   bool vflip;
   bool lensc;
   bool exposure_ctrl;
+
+  bool CameraFlashStatus;
+  uint16_t CameraFlashDuration;
 };
 
 extern struct CameraCfg_struct CameraCfg;

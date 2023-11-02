@@ -4,6 +4,15 @@
 void Camera_CapturePhoto() {
   camera_fb_t * fb = NULL;
 
+  /* check flash */
+  if (true == CameraCfg.CameraFlashStatus) {
+    digitalWrite(FLASH_GPIO_NUM, HIGH);
+    delay(CameraCfg.CameraFlashDuration);
+  }
+  /* get train photo */
+  fb = esp_camera_fb_get();
+  esp_camera_fb_return(fb);
+
   do {
     Serial.println("Taking a photo...");
 
@@ -29,6 +38,10 @@ void Camera_CapturePhoto() {
 
     /* check if photo is correctly saved */
   } while ( !( photo.length() > 100));
+
+  if (true == CameraCfg.CameraFlashStatus) {
+    digitalWrite(FLASH_GPIO_NUM, LOW);
+  }
 }
 
 /* Init camera module */

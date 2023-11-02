@@ -31,6 +31,8 @@ void Cfg_ReadCfg() {
   Cfg_LoadVflip();
   Cfg_LoadLensCorrect();
   Cfg_LoadExposureCtrl();
+  Cfg_LoadCameraFlash();
+  Cfg_LoadCameraFlashDuration();
 }
 
 /* set default cfg */
@@ -49,6 +51,8 @@ void Cfg_DefaultCfg() {
   Cfg_SaveVflip(0);
   Cfg_SaveLensCorrect(1);
   Cfg_SaveExposureCtrl(1);
+  Cfg_SaveCameraFlash(false);
+  Cfg_SaveCameraFlashDuration(200);
 }
 
 void Cfg_GetFingerprint() {
@@ -271,6 +275,25 @@ void Cfg_SaveFirstMcuStartFlag(uint8_t i_data) {
   EEPROM.commit();
 }
 
+void Cfg_SaveCameraFlash(bool i_data) {
+  Serial.print("Save camera flash function status: ");
+  Serial.println(i_data);
+
+  EEPROM.write(EEPROM_ADDR_CAMERA_FLASH_FUNCTION, i_data);
+  EEPROM.commit();
+}
+
+void Cfg_SaveCameraFlashDuration(uint16_t i_data) {
+  Serial.print("Save camera flash duration: ");
+  Serial.println(i_data);
+  uint8_t highByte = highByte(i_data);
+  uint8_t lowByte = lowByte(i_data);
+
+  EEPROM.write(EEPROM_ADDR_CAMERA_FLASH_DURATION, highByte);
+  EEPROM.write(EEPROM_ADDR_CAMERA_FLASH_DURATION + 1, lowByte);
+  EEPROM.commit();
+}
+
 /* load refresh interval from eeprom */
 void Cfg_LoadRefreshInterval() {
   RefreshInterval = EEPROM.read(EEPROM_ADDR_REFRESH_INTERVAL_START);
@@ -371,6 +394,18 @@ void Cfg_LoadExposureCtrl() {
   CameraCfg.exposure_ctrl = EEPROM.read(EEPROM_ADDR_EXPOSURE_CTRL_START);
   Serial.print("exposure_ctrl: ");
   Serial.println(CameraCfg.exposure_ctrl);
+}
+
+void Cfg_LoadCameraFlash() {
+  CameraCfg.CameraFlashStatus = EEPROM.read(EEPROM_ADDR_CAMERA_FLASH_FUNCTION);
+  Serial.print("Camera flash function: ");
+  Serial.println(CameraCfg.CameraFlashStatus);
+}
+
+void Cfg_LoadCameraFlashDuration() {
+  CameraCfg.CameraFlashDuration = uint16_t(EEPROM.read(EEPROM_ADDR_CAMERA_FLASH_DURATION) << 8) | (EEPROM.read(EEPROM_ADDR_CAMERA_FLASH_DURATION + 1));
+  Serial.print("Camera flash duration: ");
+  Serial.println(CameraCfg.CameraFlashDuration);
 }
 
 /* EOF */
