@@ -109,6 +109,7 @@ const char* password =      "12345678";
 ![Image description](manual_img/33.jpg)
 
 # Changelog
+- 6.11.2023 - added checkbox to turn on and off the automatic picture taking.
 - 24.2.2023 - Init repository
 - 25.2.2023 - added **ESP32_PrusaConnectCam** app **version 1.0** (the source code is not optimal, but it is functional)
 - 25.2.2023 - added documentation
