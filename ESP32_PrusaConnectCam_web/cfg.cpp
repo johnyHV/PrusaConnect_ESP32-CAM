@@ -56,22 +56,23 @@ void Cfg_DefaultCfg() {
 }
 
 void Cfg_GetFingerprint() {
-  String Id = "";
-  for (size_t i = 0; i < UniqueIDsize; i++) {
-    Id += String(UniqueID[i]);
-  }
-  String encoded = base64::encode(Id + " " + WifiMacAddr);
+  uint64_t mac = ESP.getEfuseMac();
 
-  Cfg_SaveFingerprint(encoded);
+  uint8_t macBytes[6];
+  macBytes[0] = mac;
+  macBytes[1] = mac >> 8;
+  macBytes[2] = mac >> 16;
+  macBytes[3] = mac >> 24;
+  macBytes[4] = mac >> 32;
+  macBytes[5] = mac >> 40;
 
-  Serial.print("UniqueID: ");
-  Serial.println(Id);
+  char fingerprint[18] = { 0 };
+  sprintf(fingerprint, "%02x-%02x-%02x-%02x-%02x-%02x", macBytes[0], macBytes[1], macBytes[2], macBytes[3], macBytes[4], macBytes[5]);
 
-  Serial.print("WiFi MAC: ");
-  Serial.println(WifiMacAddr);
+  Cfg_SaveFingerprint(String(fingerprint));
 
-  Serial.print("Encoded: ");
-  Serial.println(encoded);
+  Serial.print("Fingerprint: ");
+  Serial.println(fingerprint);
 }
 
 /* Function for check if it's first MCU start */

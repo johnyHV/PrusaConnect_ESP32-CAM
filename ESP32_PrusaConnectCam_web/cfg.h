@@ -3,8 +3,6 @@
 
 #include "Arduino.h"
 #include <EEPROM.h>
-#include <ArduinoUniqueID.h>
-#include <base64.h>
 #include "mcu_cfg.h"
 #include "var.h"
 #include "esp_camera.h"

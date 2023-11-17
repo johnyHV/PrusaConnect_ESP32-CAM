@@ -43,7 +43,6 @@ Next step is install necessary libraries. Go to **Sketch -> Include library -> M
 - MCU support [ESP32 2.0.11](https://github.com/espressif/arduino-esp32)
 - Library [ESPAsyncWebSrv 1.2.6](https://github.com/dvarrel/ESPAsyncWebSrv)
 - Library [AsyncTCP 1.1.4](https://github.com/dvarrel/AsyncTCP)
-- Library [UniqueID 1.1.3](https://www.arduino.cc/reference/en/libraries/arduinouniqueid/)
 
 <a name="token_finger"></a>
 ## How to get a token ID
