@@ -11,7 +11,7 @@ What we need for functionality
 - Get Token ID and Fingerprint from new camera in the PrusaConnect [ here ](#token_finger)
 - Get an ISRG Root X1 certificate for the PrusaConnect site [ here ](#cert)
 - How to configure [ESP32_PrusaConnectCam_web](https://github.com/johnyHV/PrusaConnect_ESP32-CAM/tree/master/ESP32_PrusaConnectCam_web) SW with WEB interface [ here ](#mcu_web)
-
+- Link for 3D model to camera holder [ here ](https://www.printables.com/cs/model/743292-esp32-cam-holder)
 <a name="esp32"></a>
 ## ESP32-CAM AI-thinker board 
 It's few dolars board with **ESP32** MCU and Camera. It's neccesary buy board with **camera module OV2640**. the board is sold without a programmer as standard. It is possible to program it using the FTDI USB to UART converter, or buy an original programmer for the board. I recommend buying a programmer for the board. It can save a lot of trouble with connecting and programming the board.
