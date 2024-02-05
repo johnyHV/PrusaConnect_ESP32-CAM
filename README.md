@@ -134,7 +134,7 @@ The board have problem with LED for FLASH. LED don't have any current limitation
 Currently I know only about 2 solution this issue. One solution is connecting external LED via relay/transistor/mosfet to board as on the next picture
 ![Image description](manual_img/relay_flash_bb.png)
 
-Or second solution is desoldering original LED, and use LED COB. I used board from simple USB LED lamp. Transistor have current limitation 500mA, and my USB lamp have current consumption 180mA, so it's OK. Second option is don't desoldering original LED from the board, but just solder minus wire from COB LED or USB LED Lamp to transistor. Plus wire is neccesary soldering to +5V. Original LED have current consuption 60-80mA, and USB lamp have current consumption aproximatly 180mA. After calculation, it is approximately 260mA, which is still fine.
+Or second solution is desoldering original LED, and use LED COB. I used board from simple USB LED lamp. Transistor have current limitation 500mA, and my USB lamp have current consumption 180mA, so it's OK. Second option is don't desoldering original LED from the board, but just solder minus wire from COB LED or USB LED Lamp to transistor. Plus wire is neccesary soldering to +5V. Original LED have current consuption 30-40mA, and USB lamp have current consumption aproximatly 180mA. After calculation, it is approximately 220mA, which is still fine.
 
 This is my USB lamp
 ![Image description](manual_img/IMG_20240203_113329640_HDR.jpg)
@@ -155,6 +155,10 @@ Or is possible use collector from transistor from minus pole without desoldering
 ![Image description](manual_img/IMG_20240204_171332787_HDR.jpg)
 
 I thought about how to solder a resistor to the LED for current limitation. It would be possible, but for casual users it can be difficult, due to lack of space. This is more simple solution.
+
+But I tried use resistor for original LED. At first step is necessary desoldering transistor collector from the PCB and lift the transistor into the air. Then is possible soldering resistor between the collector of the transistor and the PCB. I used resistor in the case 0603 with value 10-12ohm.
+
+![Image description](manual_img/WIN_20240205_19_03_54_Pro.jpg)
 
 <a name="ext_wifi"></a>
 ## External/internal WiFi antenna
