@@ -12,6 +12,11 @@ What we need for functionality
 - Get an ISRG Root X1 certificate for the PrusaConnect site [ here ](#cert)
 - How to configure [ESP32_PrusaConnectCam_web](https://github.com/johnyHV/PrusaConnect_ESP32-CAM/tree/master/ESP32_PrusaConnectCam_web) SW with WEB interface [ here ](#mcu_web)
 - Link for 3D model to camera holder [ here ](https://www.printables.com/cs/model/743292-esp32-cam-holder)
+- Schematic main board is [here](#schematic)
+- Different main board version [here](#different_mcu)
+- Issue with LED on the main board [here](#led_issue)
+- External WiFi antena [here](#ext_wifi)
+
 <a name="esp32"></a>
 ## ESP32-CAM AI-thinker board 
 It's few dolars board with **ESP32** MCU and Camera. It's neccesary buy board with **camera module OV2640**. the board is sold without a programmer as standard. It is possible to program it using the FTDI USB to UART converter, or buy an original programmer for the board. I recommend buying a programmer for the board. It can save a lot of trouble with connecting and programming the board.
@@ -107,6 +112,53 @@ const char* password =      "12345678";
 - the page also shows the current MCU configuration. The configuration is stored in the internal memory of the MCU
 
 ![Image description](manual_img/33.jpg)
+
+<a name="schematic"></a>
+## Schematic for MCU board
+![Image description](manual_img/ESP32-CAM-AI-Thinker-schematic-diagram.png)
+
+Pinout is here
+![Image description](manual_img/ESP32-CAM-pinout-new.webp)
+
+<a name="different_mcu"></a>
+## Different MCU version
+I know of two HW versions, but only one version is possible programming via CH340. The blue rectangle shows the differences between the HW versions.
+![Image description](manual_img/IMG_20230820_111907024.jpg)
+
+The red arrow points to a pin that is different in these boards. On version 1, this pin is used for MCU RESET (GND/R). On version 2, this pin serves as ground (GND). Version 1 is possible programming via CH340. But version 2 is not possible programming via CH340. Version 2 I tested programming via FFT232RL or CP2102.
+
+<a name="led_issue"></a>
+## LED issue
+The board have problem with LED for FLASH. LED don't have any current limitation. So with frequent use it goes corrupted due to too high current flowing through it.
+
+Currently I know only about 2 solution this issue. One solution is connecting external LED via relay/transistor/mosfet to board as on the next picture
+![Image description](manual_img/relay_flash_bb.png)
+
+Or second solution is desoldering original LED, and use LED COB. I used board from simple USB LED lamp. Transistor have current limitation 500mA, and my USB lamp have current consumption 180mA, so it's OK. Second option is don't desoldering original LED from the board, but just solder minus wire from COB LED or USB LED Lamp to transistor. Plus wire is neccesary soldering to +5V. Original LED have current consuption 60-80mA, and USB lamp have current consumption aproximatly 180mA. After calculation, it is approximately 260mA, which is still fine.
+
+This is my USB lamp
+![Image description](manual_img/IMG_20240203_113329640_HDR.jpg)
+
+I desoldered original LED from board
+![Image description](manual_img/IMG_20240203_111220448.jpg)
+
+It's neccesary clean pads after desoldering original LED
+![Image description](manual_img/IMG_20240203_111346678_HDR.jpg)
+
+Then is possible use USB LED lamp +5V pin, and minus pole from original LED
+![Image description](manual_img/IMG_20240203_111505667_HDR.jpg)
+
+Then stick it to the box using double-sided tape 
+![Image description](manual_img/IMG_20240203_111853441.jpg)
+
+Or is possible use collector from transistor from minus pole without desoldering original LED
+![Image description](manual_img/IMG_20240204_171332787_HDR.jpg)
+
+I thought about how to solder a resistor to the LED for current limitation. It would be possible, but for casual users it can be difficult, due to lack of space. This is more simple solution.
+
+<a name="ext_wifi"></a>
+## External/internal WiFi antenna
+![Image description](manual_img/ESP32-CAM-Antenna-external-on-board-restitor-placement.png)
 
 # Changelog
 - 24.2.2023 - Init repository
