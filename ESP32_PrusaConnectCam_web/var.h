@@ -10,7 +10,6 @@ extern String BackendReceivedData;    /* here is saved response from prusa backe
 
 extern String sToken;                 /* token for authentification to prusa backend */
 extern String sFingerprint;           /* fingerprint for autentification to prusa backend */
-extern String WifiMacAddr;            /* WiFi MAC address */
 
 struct CameraCfg_struct {
   uint8_t PhotoQuality;
