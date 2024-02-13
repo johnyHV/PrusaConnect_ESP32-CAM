@@ -28,8 +28,8 @@
 
 /* CFG variable */
 /* Replace with your network credentials */
-const char* ssid     =      "SSID";
-const char* password =      "PASSWORD";
+const char* ssid     =      "Your ssid";
+const char* password =      "your password";
 
 void setup() {
   /* Serial port for debugging purposes */
@@ -81,7 +81,7 @@ void setup() {
   Server_InitWebServer();
 
   /* init wdg */
-  esp_task_wdt_init(WDT_TIMEOUT, true); /* enable panic so ESP32 restarts */
+  esp_task_wdt_init(WDT_TIMEOUT, true); /* enable panic so ESP32 restarts after 50s */
   esp_task_wdt_add(NULL);               /* add current thread to WDT watch */
   esp_task_wdt_reset();                 /* reset wdg */
 
@@ -101,14 +101,18 @@ void loop() {
     Serial.printf(cstr);
   }
 
+  if(autoPhoto){
   /* take photo */
   Camera_CapturePhoto();
 
-  /* send photo to backend */
-  Server_SendPhotoToPrusaBackend();
 
+  /* send photo to backend */
+
+  Server_SendPhotoToPrusaBackend();
+  }
   /* reset wdg */
-  for (uint32_t i = 0; i < RefreshInterval; i++) {
+  for (uint32_t i = 0; i < RefreshInterval; i++) { //wait for amount of refreshinterval * 1 second.
+
     esp_task_wdt_reset();
     delay(1000);
   }

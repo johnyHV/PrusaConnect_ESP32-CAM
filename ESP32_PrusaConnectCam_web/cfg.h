@@ -19,6 +19,7 @@ framesize_t Cfg_TransformFrameSizeDataType(uint8_t);
 String Cfg_TransformFrameSizeToString(uint8_t);
 
 void Cfg_SaveRefreshInterval(uint8_t);
+void Cfg_SaveAutoPhoto(bool);
 void Cfg_SaveToken(String);
 void Cfg_SaveFingerprint(String);
 void Cfg_SavePhotoQuality(uint8_t);
@@ -35,6 +36,7 @@ void Cfg_SaveCameraFlash(bool);
 void Cfg_SaveCameraFlashDuration(uint16_t);
 
 void Cfg_LoadRefreshInterval();
+void Cfg_LoadAutoPhoto();
 void Cfg_LoadToken();
 void Cfg_LoadFingerprint();
 void Cfg_LoadPhotoQuality();

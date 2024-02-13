@@ -33,6 +33,7 @@ void Cfg_ReadCfg() {
   Cfg_LoadExposureCtrl();
   Cfg_LoadCameraFlash();
   Cfg_LoadCameraFlashDuration();
+  Cfg_LoadAutoPhoto();
 }
 
 /* set default cfg */
@@ -53,6 +54,7 @@ void Cfg_DefaultCfg() {
   Cfg_SaveExposureCtrl(1);
   Cfg_SaveCameraFlash(false);
   Cfg_SaveCameraFlashDuration(200);
+  Cfg_SaveAutoPhoto(0);
 }
 
 void Cfg_GetFingerprint() {
@@ -266,6 +268,14 @@ void Cfg_SaveExposureCtrl(bool i_data) {
   EEPROM.commit();
 }
 
+void Cfg_SaveAutoPhoto(bool i_data) {
+  Serial.print("Save autophoto: ");
+  Serial.println(i_data);
+
+  EEPROM.write(EEPROM_ADDR_AUTOPHOTO_START, i_data);
+  EEPROM.commit();
+}
+
 /* save flag about first MCU start. for settings basic auth and more */
 void Cfg_SaveFirstMcuStartFlag(uint8_t i_data) {
   Serial.print("Save first MCU start flag: ");
@@ -299,6 +309,12 @@ void Cfg_LoadRefreshInterval() {
   RefreshInterval = EEPROM.read(EEPROM_ADDR_REFRESH_INTERVAL_START);
   Serial.print("RefreshInterval: ");
   Serial.println(RefreshInterval);
+}
+
+void Cfg_LoadAutoPhoto() {
+  autoPhoto = EEPROM.read(EEPROM_ADDR_AUTOPHOTO_START);
+  Serial.print("autoPhoto: ");
+  Serial.println(autoPhoto);
 }
 
 /* load token from eeprom */
@@ -395,6 +411,8 @@ void Cfg_LoadExposureCtrl() {
   Serial.print("exposure_ctrl: ");
   Serial.println(CameraCfg.exposure_ctrl);
 }
+
+
 
 void Cfg_LoadCameraFlash() {
   CameraCfg.CameraFlashStatus = EEPROM.read(EEPROM_ADDR_CAMERA_FLASH_FUNCTION);

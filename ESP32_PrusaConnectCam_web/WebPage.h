@@ -100,6 +100,8 @@ const char index_html[] PROGMEM = R"rawliteral(
         <br><br>
         <button class="button" onclick="reset()">Reset to default configuration</button>
         <button class="button" onclick="reboot()">Reboot MCU</button>
+        <label><input type="checkbox" id="autoPhoto" onclick="automaticPhoto(this);" checked>
+    automatic photo</label>
       </p>
       <br><hr><h3>Variables</h3>
       <table id="data">
@@ -268,7 +270,7 @@ const char index_html[] PROGMEM = R"rawliteral(
             <option value="-2">-2</option>
               <option value="-1">-1</option>
               <option selected value="0">0</option>
-              <option value="1">1</option>
+              <option value="1">1</option>  
               <option value="2">2</option>
           </select>
           <input type="submit" value="Save">
@@ -355,6 +357,13 @@ const char index_html[] PROGMEM = R"rawliteral(
     xhr.open('GET', "/reboot", true);
     xhr.send();
   }
+
+function automaticPhoto(cb) {
+
+      var xhr = new XMLHttpRequest();
+    xhr.open('GET', "/autophoto", cb.checked);
+    xhr.send();
+}
 </script>
 <script>
   (function() {
@@ -372,6 +381,15 @@ const char index_html[] PROGMEM = R"rawliteral(
               $("#token").text(obj.token);
               $("#fingerprint").text(obj.fingerprint);
               $("#refreshInterval").text(obj.refreshInterval);
+              if (obj.autoPhoto == '1')
+{
+    $( "#autoPhoto").prop('checked', true);
+}
+else
+{
+    $( "#autoPhoto").prop('checked', false);
+}
+
               $("#photoquality").text(obj.photoquality);
               $("#framesize").text(obj.framesize);
               $("#brightness").text(obj.brightness);

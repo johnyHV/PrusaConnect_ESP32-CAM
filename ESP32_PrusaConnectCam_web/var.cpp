@@ -2,6 +2,7 @@
 
 String photo = "";
 uint8_t RefreshInterval = 0;
+bool autoPhoto = 0;
 String BackendReceivedData = "";
 
 String sToken = "";

@@ -6,6 +6,7 @@
 
 extern String photo;                  /* here is saved photo */
 extern uint8_t RefreshInterval;       /* here is saved refresh interval */
+extern bool autoPhoto;
 extern String BackendReceivedData;    /* here is saved response from prusa backend. Maybe is good idea send response to WEB page ? or not ? */
 
 extern String sToken;                 /* token for authentification to prusa backend */
