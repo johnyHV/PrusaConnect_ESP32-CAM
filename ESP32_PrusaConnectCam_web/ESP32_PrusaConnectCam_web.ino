@@ -30,6 +30,7 @@
 /* Replace with your network credentials */
 const char* ssid     =      "SSID";
 const char* password =      "PASSWORD";
+const char* hostName =      "CAMERA_NAME";
 
 void setup() {
   /* Serial port for debugging purposes */
@@ -43,6 +44,7 @@ void setup() {
   Cfg_Init();
 
   /* Connect to Wi-Fi */
+  WiFi.setHostname(hostName);
   WiFi.begin(ssid, password);
   Serial.println("Connecting to WiFi");
   while (WiFi.status() != WL_CONNECTED) {
