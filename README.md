@@ -123,6 +123,7 @@ To send images to PrusaConnect we need three items:
     ```
     const char* ssid     =      "HomeNetwork";
     const char* password =      "12345678";
+
     ```
 
 1. If it is necessary to set the serial link baud rate, do so in the file `mcu_cfg.h` by setting the variable `SERIAL_PORT_SPEER` to whatever speed works for you.
@@ -192,13 +193,25 @@ There are very many different variations of ESP32 cameras and ESP32 boards, each
 
     ![Image description](manual_img/arduinoIDE02.png)
 
+    The downloading starts with something similar to this:
+
+    ![Image description](manual_img/Download01.png)
+
+    and ends like this:  
+
+    ![Image description](manual_img/Download02.png)
+
+
 3. Once the uploading is complete, you have to disconnect the GPIO 0 from the GND (blue wire).
+
 
 1. Open the serial monitor in the IDE:
 
     ![Image description](manual_img/arduinoIDE04.png)
 
-1. Restart the device, by power cycle or pressing the RST button.
+1. Restart the device, by power cycle or pressing the RST button. It will show something like this:
+
+    ![Image description](manual_img/CAMconfig04.png)
 
 <a name="mcu_web"></a>
 ## Configure ESP32-CAM with the browser interface
@@ -207,7 +220,7 @@ Every ESP32-CAM must be set up to work with PrusaConnect.  This is done via the 
 
 1. Open the serial console and wait until the ESP32-CAM IP address is displayed
 
-    ![Image description](manual_img/31.jpg)
+    ![Image description](manual_img/CAMconfig03.png)
 
 1. Open a browser on your PC and enter the IP address of the ESP32-CAM. This will then serve the web page to your PC.
 
@@ -220,7 +233,10 @@ Every ESP32-CAM must be set up to work with PrusaConnect.  This is done via the 
     ![Image description](manual_img/34.jpg)
 
 
-1. You must tell the ESP32-CAM by which ID  API token variable it will be known to PrusaConnect. Enter the API token you downloaded from the PrusaConnect website into the first entry `Token` in the image shown above, and press `Save`.
+1. You must tell the ESP32-CAM by which ID  API token variable it will be known to PrusaConnect. Enter the API token you downloaded from the PrusaConnect website into the first entry `Token` and press `Save`.
+
+    ![Image description](manual_img/CAMconfig01.png)
+
 
 1. There is also an option to turn the LED on or off (but see the write-up below).
 

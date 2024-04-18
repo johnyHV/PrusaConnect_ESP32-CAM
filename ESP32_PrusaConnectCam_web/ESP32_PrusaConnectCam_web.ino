@@ -28,9 +28,9 @@
 
 /* CFG variable */
 /* Replace with your network credentials */
-const char* ssid     =      "SSID";
-const char* password =      "PASSWORD";
-const char* hostName =      "CAMERA_NAME";
+const char* ssid     =      "yourSSID";
+const char* password =      "yourPassword";
+const char* hostName =      "yourCameraName";
 
 void setup() {
   /* Serial port for debugging purposes */
@@ -107,9 +107,7 @@ void loop() {
   /* take photo */
   Camera_CapturePhoto();
 
-
   /* send photo to backend */
-
   Server_SendPhotoToPrusaBackend();
   }
   /* reset wdg */
