@@ -1,7 +1,7 @@
 #ifndef _MCU_CFG_H_
 #define _MCU_CFG_H_
 
-#define SW_VERSION         "1.1.7"
+#define SW_VERSION         "1.1.6"
 
 #define HOST_URL           "https://webcam.connect.prusa3d.com/c/snapshot" /* Prusa Connect server URL for photo */
 #define DOMAIN             "webcam.connect.prusa3d.com"                    /* prusa connect server */
@@ -23,7 +23,10 @@
 #define EEPROM_ADDR_REFRESH_INTERVAL_START    0     /* whre is stored first byte from refresh data */
 #define EEPROM_ADDR_REFRESH_INTERVAL_LENGTH   1     /* how long is the refresh data variable stored in the eeprom [bytes] */
 
-#define EEPROM_ADDR_FINGERPRINT_START         (EEPROM_ADDR_REFRESH_INTERVAL_START + EEPROM_ADDR_REFRESH_INTERVAL_LENGTH)    /* where is stored first byte from fingerprint */
+#define EEPROM_ADDR_AUTOPHOTO_START           (EEPROM_ADDR_REFRESH_INTERVAL_START + EEPROM_ADDR_REFRESH_INTERVAL_LENGTH)
+#define EEPROM_ADDR_AUTOPHOTO_LENGTH          1
+
+#define EEPROM_ADDR_FINGERPRINT_START         (EEPROM_ADDR_AUTOPHOTO_START + EEPROM_ADDR_AUTOPHOTO_LENGTH)    /* where is stored first byte from fingerprint */
 #define EEPROM_ADDR_FINGERPRINT_LENGTH        80                                                                            /* how long is fingerprint [bytes] */
 
 #define EEPROM_ADDR_TOKEN_START               (EEPROM_ADDR_FINGERPRINT_START + EEPROM_ADDR_FINGERPRINT_LENGTH)              /* where is stored first byte from token */
