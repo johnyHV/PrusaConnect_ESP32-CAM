@@ -7,7 +7,6 @@ This sketch uses the ESP32 CAM to record pictures for
 - display on a wifi-local browser via built-in web server (i.e., computer/Android/IOS browser).
 - sending pictures to PrusaConnect in the cloud.
 
-
 What we need for the functionality
 - ESP32-CAM AI-thinker board with OV2640 camera module [ here ](#esp32)
 - Arduino IDE
@@ -15,15 +14,19 @@ What we need for the functionality
 - Get PrusaConnect API Token ID and Fingerprint for a newly created camera  [ here ](#token_finger)
 - Get an ISRG Root X1 certificate for the PrusaConnect site [ here ](#cert)
 - How to configure [ESP32_PrusaConnectCam_web](https://github.com/johnyHV/PrusaConnect_ESP32-CAM/tree/master/ESP32_PrusaConnectCam_web) SW with WEB interface [ here ](#mcu_web)
-- Link for 3D model to camera holder [ here ](https://www.printables.com/cs/model/743292-esp32-cam-holder)
 - Schematic main board is [here](#schematic)
 - Different main board version [here](#different_mcu)
 - Issue with LED on the main board [here](#led_issue)
 - External WiFi antenna [here](#ext_wifi)
 
+3D print a camera holder mount for your printer:
+- Link for Prusa MK3/Mk4/Mini 3D model [ here ](https://www.printables.com/cs/model/743292-esp32-cam-holder)
+- Link for Prusa XL 3D model [ here ](https://www.printables.com/model/872135-esp32-cam-mount-for-prusa-xl-printer)
+
+
 For more information on the ESP32-CAM see here:  
-https://randomnerdtutorials.com/program-upload-code-esp32-cam/  
-https://www.diyengineers.com/2023/04/13/esp32-cam-complete-guide/
+- https://randomnerdtutorials.com/program-upload-code-esp32-cam/  
+- https://www.diyengineers.com/2023/04/13/esp32-cam-complete-guide/
 
 ## Accessing PrusaConnect
 
