@@ -38,6 +38,8 @@ void Server_InitWebServer() {
     request->send_P(200, "text/plain", "Change LED status");
   });
 
+
+
   server.on("/reset", HTTP_GET, [](AsyncWebServerRequest * request) {
     Serial.println("WEB server: Reset configuration to default!");
     Cfg_DefaultCfg();
@@ -60,6 +62,16 @@ void Server_InitWebServer() {
       RefreshInterval = request->getParam("refresh")->value().toInt();
       Cfg_SaveRefreshInterval(RefreshInterval);
     }
+  });
+
+    /* route for change autophoto status */
+  server.on("/autophoto", HTTP_GET, [](AsyncWebServerRequest * request) {
+    Serial.println("WEB server: Change autophoto status");
+    Serial.print("autophoto was: ");
+    Serial.println(autoPhoto);
+    autoPhoto = !autoPhoto;
+    Cfg_SaveAutoPhoto(autoPhoto);
+    request->send_P(200, "text/plain", "Changed autophoto setting");
   });
 
   /* route for set token for authentification to prusa backend*/
@@ -209,6 +221,12 @@ void Server_InitWebServer() {
   server.begin();
 }
 
+/* Stop and start the server if IP has changed */
+void Server_Restart() {
+  server.end();
+  server.begin();
+}
+
 /* if the page was not found on ESP, then print which page is not there */
 void Server_handleNotFound(AsyncWebServerRequest * request) {
   String message = "URL not Found\n\n";
@@ -315,6 +333,10 @@ String Server_GetJsonData() {
 
   data += "\"refreshInterval\" : \"";
   data += String(RefreshInterval);
+  data += "\", ";
+
+  data += "\"autoPhoto\" : \"";
+  data += autoPhoto;
   data += "\", ";
 
   data += "\"photoquality\" : \"";
