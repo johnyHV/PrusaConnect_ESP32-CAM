@@ -1,5 +1,8 @@
 # PrusaConnect ESP32-CAM
 
+### Continued development of this source code can be found [ here ](https://github.com/prusa3d/Prusa-Firmware-ESP32-Cam)
+
+
 For Web cameras in the PrusaConnect is launched a WEB page on the Android/IOS/laptop device, which then sending photos from the camera to the prusaconnect backend.
 
 Here is the implementation of a WEB camera for prusa connect, where the ESP32-CAM board is programmed in the arduino IDE as a WEB camera via WI-FI.
